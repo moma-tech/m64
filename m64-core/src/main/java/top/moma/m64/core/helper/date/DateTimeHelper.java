@@ -68,21 +68,21 @@ public class DateTimeHelper {
     return of(timestamp, ZoneId.of(ZoneId.SHORT_IDS.get("CTT")));
   }
 
-  public static LocalDateTime parse(String dateTime, String format) {
+  public static LocalDateTime parse(CharSequence dateTime, String format) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     return LocalDateTime.parse(dateTime, formatter);
   }
 
-  public static LocalDateTime parse(String dateTime) {
+  public static LocalDateTime parse(CharSequence dateTime) {
     return parse(dateTime, DateTimePatterns.DEFAULT_DATETIME_PATTERN);
   }
 
-  public static LocalDate parseStringToDate(String date, String format) {
+  public static LocalDate parseDate(CharSequence date, String format) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     return LocalDate.parse(date, formatter);
   }
 
-  public static LocalDate parseStringToDate(String date) {
-    return parseStringToDate(date, DateTimePatterns.DEFAULT_DATE_PATTERN);
+  public static LocalDate parseDate(CharSequence date) {
+    return parseDate(date, DateTimePatterns.DEFAULT_DATE_PATTERN);
   }
 }
