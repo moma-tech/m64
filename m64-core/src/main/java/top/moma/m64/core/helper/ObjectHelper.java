@@ -1,5 +1,7 @@
 package top.moma.m64.core.helper;
 
+import org.springframework.util.ObjectUtils;
+
 /**
  * ObjectHelper
  *
@@ -17,5 +19,16 @@ public class ObjectHelper {
    */
   public static <T> T defaultIfNull(final T object, final T defaultValue) {
     return null != object ? object : defaultValue;
+  }
+
+  /**
+   * If Object null or content is empty {@link ObjectUtils#isEmpty(Object)}
+   *
+   * @author Created by ivan on 1:39 PM 11/23/20.
+   * @param obj : Object
+   * @return boolean
+   */
+  public static boolean isEmpty(Object obj) {
+    return ObjectUtils.isEmpty(obj);
   }
 }

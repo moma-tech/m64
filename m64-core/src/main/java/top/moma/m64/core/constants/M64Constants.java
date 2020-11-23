@@ -9,4 +9,5 @@ package top.moma.m64.core.constants;
 public interface M64Constants {
   /** MAP 初始化大小，默认16 建议：(float) expectedSize / 0.75F + 1.0F */
   int INIT_MAP_SIZE = 16;
+
 }
