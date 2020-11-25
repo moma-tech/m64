@@ -340,28 +340,4 @@ public class JsonHelper {
       throw new RuntimeException(ignore);
     }
   }
-
-  /**
-   * XSS String Escape - non need
-   *
-   * @author Created by ivan at 下午2:54 2020/1/10.
-   */
-  static class XssStringJsonSerializer extends JsonSerializer<String> {
-    @Override
-    public Class<String> handledType() {
-      return String.class;
-    }
-
-    @Override
-    public void serialize(
-        String value, JsonGenerator jsonGenerator, SerializerProvider serializerProvider)
-        throws IOException {
-      if (value != null) {
-        // TODO 暂时不进行XSS处理
-        // String encodedValue = HtmlUtils.htmlEscape(value);
-        // jsonGenerator.writeString(encodedValue);
-        jsonGenerator.writeString(value);
-      }
-    }
-  }
 }

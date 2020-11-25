@@ -1,6 +1,12 @@
 package top.moma.m64.core.helper;
 
 import org.springframework.util.StringUtils;
+import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.helper.text.StringFormatter;
+
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.util.Set;
 
 /**
  * StringHelper
@@ -145,13 +151,195 @@ public class StringHelper {
   }
 
   /**
-   * call Object toString, or null
+   * cast Object toString, or null
    *
    * @author Created by ivan on 5:10 PM 11/23/20.
    * @param object : given Object
    * @return java.lang.String
    */
   public static String toString(Object object) {
-    return null == object ? null : object.toString();
+    return toString(object, null);
+  }
+
+  /**
+   * ast Object toString, or default value
+   *
+   * @author Created by ivan on 10:43 AM 11/25/20.
+   * @param object :
+   * @param defaultValue :
+   * @return java.lang.String
+   */
+  public static String toString(Object object, String defaultValue) {
+    return toString(object, defaultValue, null);
+  }
+
+  /**
+   * cast Object to toString, or default value, consider charset for byte
+   *
+   * @author Created by ivan on 10:18 AM 11/25/20.
+   * @param object : given Object
+   * @param defaultValue : default Value
+   * @return java.lang.String
+   */
+  public static String toString(Object object, String defaultValue, String charset) {
+    if (null == object) {
+      return defaultValue;
+    }
+    if (object instanceof String) {
+      return (String) object;
+    } else if (object instanceof byte[] || object instanceof Byte[]) {
+      return toString((byte[]) object, charset);
+    } else if (object instanceof ByteBuffer) {
+      return toString((ByteBuffer) object, charset);
+    } else {
+      return ObjectHelper.toString(object);
+    }
+  }
+
+  /**
+   * 将编码的byteBuffer数据转换为字符串
+   *
+   * @param data 数据
+   * @param charset 字符集，如果为空使用当前系统字符集
+   * @return 字符串
+   */
+  public static String toString(ByteBuffer data, Charset charset) {
+    if (null == charset) {
+      charset = Charset.defaultCharset();
+    }
+    return charset.decode(data).toString();
+  }
+  /**
+   * 将编码的byteBuffer数据转换为字符串
+   *
+   * @param data 数据
+   * @param charset 字符集，如果为空使用当前系统字符集
+   * @return 字符串
+   */
+  public static String toString(ByteBuffer data, String charset) {
+    if (null == data) {
+      return null;
+    }
+    return toString(data, Charset.forName(charset));
+  }
+
+  /**
+   * 解码字节码
+   *
+   * @param data 字符串
+   * @param charset 字符集，如果此字段为空，则解码的结果取决于平台
+   * @return 解码后的字符串
+   */
+  public static String toString(byte[] data, Charset charset) {
+    if (null == data) {
+      return null;
+    }
+    if (null == charset) {
+      return new String(data);
+    }
+    return new String(data, charset);
+  }
+
+  /**
+   * 将byte数组转为字符串
+   *
+   * @param bytes byte数组
+   * @param charset 字符集
+   * @return 字符串
+   */
+  public static String toString(byte[] bytes, String charset) {
+    return toString(bytes, isEmpty(charset) ? Charset.defaultCharset() : Charset.forName(charset));
+  }
+
+  /**
+   * 半角转全角
+   *
+   * @param input String.
+   * @return 全角字符串.
+   */
+  public static String toSBC(String input) {
+    return toSBC(input, null);
+  }
+
+  /**
+   * 半角转全角
+   *
+   * @param input String
+   * @param notConvertSet 不替换的字符集合
+   * @return 全角字符串.
+   */
+  public static String toSBC(String input, Set<Character> notConvertSet) {
+    char[] chars = input.toCharArray();
+    for (int i = 0; i < chars.length; i++) {
+      if (null != notConvertSet && notConvertSet.contains(chars[i])) {
+        // 跳过不替换的字符
+        continue;
+      }
+
+      if (chars[i] == ' ') {
+        chars[i] = '\u3000';
+      } else if (chars[i] < '\177') {
+        chars[i] = (char) (chars[i] + 65248);
+      }
+    }
+    return new String(chars);
+  }
+
+  /**
+   * 全角转半角
+   *
+   * @param input String.
+   * @return 半角字符串
+   */
+  public static String toDBC(String input) {
+    return toDBC(input, null);
+  }
+
+  /**
+   * 替换全角为半角
+   *
+   * @param text 文本
+   * @param notConvertSet 不替换的字符集合
+   * @return 替换后的字符
+   */
+  public static String toDBC(String text, Set<Character> notConvertSet) {
+    char[] chars = text.toCharArray();
+    for (int i = 0; i < chars.length; i++) {
+      if (null != notConvertSet && notConvertSet.contains(chars[i])) {
+        // 跳过不替换的字符
+        continue;
+      }
+
+      if (chars[i] == '\u3000') {
+        chars[i] = ' ';
+      } else if (chars[i] > '\uFF00' && chars[i] < '\uFF5F') {
+        chars[i] = (char) (chars[i] - 65248);
+      }
+    }
+    return new String(chars);
+  }
+
+  /**
+   * 格式化字符串<br>
+   * 此方法只是简单将占位符 {} 按照顺序替换为参数<br>
+   * 如果想输出 {} 使用 \\转义 { 即可，如果想输出 {} 之前的 \ 使用双转义符 \\\\ 即可<br>
+   * 例：<br>
+   * 通常使用：format("this is {} for {}", "a", "b") =》 this is a for b<br>
+   * 转义{}： format("this is \\{} for {}", "a", "b") =》 this is \{} for a<br>
+   * 转义\： format("this is \\\\{} for {}", "a", "b") =》 this is \a for b<br>
+   *
+   * @author Created by ivan on 2:51 PM 11/25/20.
+   * @param charSequence : String template
+   * @param params : Replace value
+   * @return java.lang.String
+   */
+  public static String format(CharSequence charSequence, Object... params) {
+    if (null == charSequence) {
+      return StringConstants.NULL;
+    }
+    if (ObjectHelper.isEmpty(params) || isBlank(charSequence)) {
+      return charSequence.toString();
+    }
+    return StringFormatter.format(charSequence.toString(), params);
   }
 }

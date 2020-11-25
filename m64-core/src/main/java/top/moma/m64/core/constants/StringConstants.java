@@ -7,6 +7,12 @@ package top.moma.m64.core.constants;
  * @version 1.0 Created by ivan at 11/23/20.
  */
 public interface StringConstants {
+  /** ISO-8859-1 */
+  String ISO_8859_1 = "ISO-8859-1";
+  /** UTF-8 */
+  String UTF_8 = "UTF-8";
+  /** GBK */
+  String GBK = "GBK";
 
   /** 字符串常量：空格符 {@code " "} */
   String SPACE = " ";
@@ -100,4 +106,5 @@ public interface StringConstants {
 
   /** 字符串常量：空 JSON <code>"{}"</code> */
   String EMPTY_JSON = "{}";
+
 }

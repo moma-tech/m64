@@ -31,4 +31,29 @@ public class ObjectHelper {
   public static boolean isEmpty(Object obj) {
     return ObjectUtils.isEmpty(obj);
   }
+
+  /**
+   * Cast Object to String,return "null" or ""
+   *
+   * @author Created by ivan on 11:12 AM 11/25/20.
+   * @param object : object
+   * @return java.lang.String
+   */
+  public static String toString(Object object) {
+    return ObjectUtils.nullSafeToString(object);
+  }
+
+  /**
+   * System Array Copy
+   *
+   * @author Created by ivan on 2:10 PM 11/25/20.
+   * @param src : source object
+   * @param dest : destination object
+   * @param length : request length
+   * @return java.lang.Object
+   */
+  public static Object arrayCopy(Object src, Object dest, int length) {
+    System.arraycopy(src, 0, dest, 0, length);
+    return dest;
+  }
 }
