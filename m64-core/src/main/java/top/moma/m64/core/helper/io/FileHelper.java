@@ -4,6 +4,12 @@ import top.moma.m64.core.exceptions.M64Exception;
 import top.moma.m64.core.helper.io.file.FileOperator;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 /**
  * FileHelper
@@ -114,5 +120,70 @@ public class FileHelper {
       parentFile.mkdirs();
     }
     return parentFile;
+  }
+
+  /**
+   * deleteFile
+   *
+   * <p>By String path
+   *
+   * @author Created by ivan at 下午3:55 2020/8/19.
+   * @return boolean
+   */
+  public static boolean deleteFile(String destFile) {
+    return deleteFile(new File(destFile));
+  }
+
+  /**
+   * deleteFile
+   *
+   * <p>By File
+   *
+   * @author Created by ivan at 下午3:55 2020/8/19.
+   * @return boolean
+   */
+  public static boolean deleteFile(File destFile) {
+    if (destFile == null) {
+      return false;
+    }
+    try {
+      return deleteFile(destFile.toPath());
+    } catch (IOException ex) {
+      throw new M64Exception("File Delete Error: ", ex);
+    }
+  }
+
+  /**
+   * deleteFile
+   *
+   * <p>By Path
+   *
+   * @author Created by ivan at 下午3:55 2020/8/19.
+   * @return boolean
+   */
+  public static boolean deleteFile(Path destFilePath) throws IOException {
+    if (destFilePath == null) {
+      return false;
+    }
+    if (!Files.exists(destFilePath)) {
+      return false;
+    }
+    Files.walkFileTree(
+        destFilePath,
+        new SimpleFileVisitor<Path>() {
+          @Override
+          public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+              throws IOException {
+            Files.delete(file);
+            return FileVisitResult.CONTINUE;
+          }
+
+          @Override
+          public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+            Files.delete(dir);
+            return FileVisitResult.CONTINUE;
+          }
+        });
+    return true;
   }
 }
