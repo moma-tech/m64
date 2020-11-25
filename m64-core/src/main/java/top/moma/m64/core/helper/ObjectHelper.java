@@ -60,7 +60,7 @@ public class ObjectHelper {
    * @param src : source object
    * @param dest : destination object
    * @param length : request length
-   * @return java.lang.Object
+   * @return java.lang.Object SYSTEM
    */
   public static Object arrayCopy(Object src, Object dest, int length) {
     System.arraycopy(src, 0, dest, 0, length);
