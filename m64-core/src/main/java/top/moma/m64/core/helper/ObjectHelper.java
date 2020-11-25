@@ -31,6 +31,16 @@ public class ObjectHelper {
   public static boolean isEmpty(Object obj) {
     return ObjectUtils.isEmpty(obj);
   }
+  /**
+   * If Object not null and content is not empty {@link ObjectUtils#isEmpty(Object)}
+   *
+   * @author Created by ivan on 1:39 PM 11/23/20.
+   * @param obj : Object
+   * @return boolean
+   */
+  public static boolean isNotEmpty(Object obj) {
+    return !isEmpty(obj);
+  }
 
   /**
    * Cast Object to String,return "null" or ""

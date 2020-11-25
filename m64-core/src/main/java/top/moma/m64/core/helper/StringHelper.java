@@ -149,7 +149,42 @@ public class StringHelper {
     }
     return new String(charArray);
   }
-
+  /**
+   * Get SubString
+   *
+   * @author Created by ivan on 5:19 PM 11/25/20.
+   * @param data : string
+   * @param start : strart index
+   * @param end : end index
+   * @return java.lang.String
+   */
+  public static String substring(final String data, int start, int end) {
+    if (null == data) {
+      return null;
+    }
+    // handle negatives
+    if (end < 0) {
+      end = data.length() + end; // remember end is negative
+    }
+    if (start < 0) {
+      start = data.length() + start; // remember start is negative
+    }
+    // check length next
+    if (end > data.length()) {
+      end = data.length();
+    }
+    // if start is greater than end, return ""
+    if (start > end) {
+      return StringConstants.EMPTY;
+    }
+    if (start < 0) {
+      start = 0;
+    }
+    if (end < 0) {
+      end = 0;
+    }
+    return data.substring(start, end);
+  }
   /**
    * cast Object toString, or null
    *
