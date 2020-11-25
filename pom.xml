@@ -16,7 +16,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>m64</name>
     <packaging>pom</packaging>
-    <description>home,sweet home 15ad1e4d7379e6d016a4ee1eec095c383f086ed4</description>
+    <description>home,sweet home</description>
     <url>http://www.mmtech.top</url>
     <licenses>
         <license>
@@ -26,11 +26,11 @@
     </licenses>
     <developers>
         <developer>
-            <id>ivandjp</id>
-            <name>Ivan Dong</name>
+            <id>moma-tech</id>
+            <name>moma-tech</name>
             <email>ivandjp@gmail.com</email>
             <roles>
-                <role>Software Eng.</role>
+                <role>Software Eng.15ad1e4d7379e6d016a4ee1eec095c383f086ed4</role>
             </roles>
         </developer>
     </developers>
