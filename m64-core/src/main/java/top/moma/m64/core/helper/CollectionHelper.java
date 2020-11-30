@@ -154,4 +154,15 @@ public class CollectionHelper {
   public static <K, V> IdentityHashMap<K, V> newIdentityHashMap() {
     return new IdentityHashMap<K, V>();
   }
+
+  /**
+   * Convert Source to Object Array
+   *
+   * @author Created by ivan on 5:33 PM 11/30/20.
+   * @param source : source Object
+   * @return java.util.List
+   */
+  public static List arrayToList(Object source) {
+    return Arrays.asList(ObjectHelper.toObjectArray(source));
+  }
 }

@@ -66,4 +66,32 @@ public class ObjectHelper {
     System.arraycopy(src, 0, dest, 0, length);
     return dest;
   }
+
+  /**
+   * System Array Copy, different length
+   *
+   * @author Created by ivan on 5:41 PM 11/30/20.
+   * @param src :
+   * @param dest :
+   * @param srcPos :
+   * @param desPos :
+   * @param length :
+   * @return java.lang.Object
+   */
+  public static Object arrayCopy(Object src, Object dest, int srcPos, int desPos, int length) {
+    System.arraycopy(src, srcPos, dest, desPos, length);
+    return dest;
+  }
+
+  /**
+   * Convert the given array (which may be a primitive array) to an * object array (if necessary of
+   * primitive wrapper objects).
+   *
+   * @author Created by ivan on 2:28 PM 11/30/20.
+   * @param source : given source
+   * @return java.lang.Object[]
+   */
+  public static Object[] toObjectArray(Object source) {
+    return ObjectUtils.toObjectArray(source);
+  }
 }
