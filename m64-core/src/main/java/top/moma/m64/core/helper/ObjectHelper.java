@@ -63,19 +63,18 @@ public class ObjectHelper {
    * @return java.lang.Object SYSTEM
    */
   public static Object arrayCopy(Object src, Object dest, int length) {
-    System.arraycopy(src, 0, dest, 0, length);
-    return dest;
+    return arrayCopy(src, dest, 0, 0, length);
   }
 
   /**
    * System Array Copy, different length
    *
    * @author Created by ivan on 5:41 PM 11/30/20.
-   * @param src :
-   * @param dest :
-   * @param srcPos :
-   * @param desPos :
-   * @param length :
+   * @param src : source object
+   * @param dest : destination object
+   * @param srcPos : source start position
+   * @param desPos : destination start position
+   * @param length : walk length
    * @return java.lang.Object
    */
   public static Object arrayCopy(Object src, Object dest, int srcPos, int desPos, int length) {
