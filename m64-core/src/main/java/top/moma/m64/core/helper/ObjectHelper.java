@@ -32,7 +32,7 @@ public class ObjectHelper {
     return ObjectUtils.isEmpty(obj);
   }
   /**
-   * If Object not null and content is not empty {@link ObjectUtils#isEmpty(Object)}
+   * If Object not null and content is not empty {@link ObjectUtils#isEmpty(Object)} c
    *
    * @author Created by ivan on 1:39 PM 11/23/20.
    * @param obj : Object
@@ -74,7 +74,7 @@ public class ObjectHelper {
    * @param dest : destination object
    * @param srcPos : source start position
    * @param desPos : destination start position
-   * @param length : walk length
+   * @param length : wak length
    * @return java.lang.Object
    */
   public static Object arrayCopy(Object src, Object dest, int srcPos, int desPos, int length) {
