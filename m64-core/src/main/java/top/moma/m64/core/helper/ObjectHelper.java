@@ -18,7 +18,7 @@ public class ObjectHelper {
    * @return T
    */
   public static <T> T defaultIfNull(final T object, final T defaultValue) {
-    return null != object ? object : defaultValue;
+    return isEmpty(object) ? object : defaultValue;
   }
 
   /**
