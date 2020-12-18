@@ -330,7 +330,7 @@ public class StringHelper {
    * @return java.lang.String[]
    */
   public static String[] split(String toSplit, String delimiter) {
-    return StringUtils.split(toSplit, delimiter);
+    return StringUtils.tokenizeToStringArray(toSplit, delimiter);
   }
 
   /**
