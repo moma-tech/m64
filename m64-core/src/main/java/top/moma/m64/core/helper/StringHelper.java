@@ -287,7 +287,7 @@ public class StringHelper {
    */
   public static boolean equalsAnyIgnoreCase(
       CharSequence charSequence1, CharSequence... searchStrings) {
-    if (ObjectHelper.isNotEmpty(searchStrings)) {
+    if (ObjectHelper.isNotEmpty(charSequence1) && ObjectHelper.isNotEmpty(searchStrings)) {
       CharSequence[] charSequences2 = searchStrings;
       int counter = searchStrings.length;
 
