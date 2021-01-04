@@ -5,15 +5,14 @@ import top.moma.m64.core.constants.StringConstants;
 import top.moma.m64.core.helper.ObjectHelper;
 import top.moma.m64.core.helper.StringHelper;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * DateTimeHelper
@@ -290,5 +289,218 @@ public class DateTimeHelper {
    */
   public static LocalDate parseDate(CharSequence date) {
     return parseDate(date, DateTimePatterns.DEFAULT_DATE_PATTERN);
+  }
+
+  /**
+   * afterSpecifiedTimeGap
+   *
+   * <p>build LDT from given LDT plus gap time
+   *
+   * <p>default timeUnit is SECOND
+   *
+   * @author Created by ivan at 下午4:10 2020/1/13.
+   * @return java.time.LocalDateTime
+   */
+  public static LocalDateTime afterSpecifiedTimeGap(
+      LocalDateTime base, long gap, ChronoUnit timeUnit) {
+    LocalDateTime result = null;
+    if (Objects.nonNull(base)) {
+      if (Objects.isNull(timeUnit)) {
+        timeUnit = ChronoUnit.SECONDS;
+      }
+      result = base.plus(gap, timeUnit);
+    }
+    return result;
+  }
+
+  /**
+   * afterSpecifiedTimeGap
+   *
+   * <p>build LDT from timestamp plus gap time
+   *
+   * @author Created by ivan at 下午4:12 2020/1/13.
+   * @return java.time.LocalDateTime
+   */
+  public static LocalDateTime afterSpecifiedTimeGap(long baseTs, long gap, ChronoUnit timeUnit) {
+    LocalDateTime base = of(baseTs);
+    return afterSpecifiedTimeGap(base, gap, timeUnit);
+  }
+
+  /**
+   * isAfterComparedDayGaps
+   *
+   * <p>check if given LD is after compare LD in gap Days
+   *
+   * @author Created by ivan at 下午4:13 2020/1/13.
+   * @return boolean
+   */
+  public static boolean isAfterComparedDayGaps(LocalDate given, LocalDate compare, long gap) {
+    LocalDate localDate = compare.minusDays(gap);
+    return given.isAfter(localDate);
+  }
+
+  /**
+   * isEqualComparedDayGaps
+   *
+   * <p>check if given LD is gap days after compare LD
+   *
+   * @author Created by ivan at 下午4:14 2020/1/13.
+   * @return boolean
+   */
+  public static boolean isEqualComparedDayGaps(LocalDate given, LocalDate compare, long gap) {
+    LocalDate localDate = compare.minusDays(gap);
+    return given.isEqual(localDate);
+  }
+
+  /**
+   * isBeforeSecondLDt
+   *
+   * <p>check if first LDT is before second LDT
+   *
+   * @author Created by ivan at 下午4:15 2020/1/13.
+   * @return boolean
+   */
+  public static boolean isBeforeSecondLDt(LocalDateTime firstTime, LocalDateTime secondTime) {
+    Duration duration = Duration.between(firstTime, secondTime);
+    long nano = duration.toNanos();
+    return 0 <= nano;
+  }
+
+  /**
+   * getTodayStartTime
+   *
+   * <p>get today's Start LDT
+   *
+   * <p>2020-01-13T00:00
+   *
+   * @author Created by ivan at 下午4:15 2020/1/13.
+   * @return java.time.LocalDateTime
+   */
+  public static LocalDateTime getTodayStartTime() {
+    return LocalDateTime.now().with(LocalTime.MIN);
+  }
+  /**
+   * getTodayEndTime
+   *
+   * <p>get today's End LDT
+   *
+   * <p>2020-01-13T23:59:59.9999s99999
+   *
+   * @author Created by ivan at 下午4:17 2020/1/13.
+   * @return java.time.LocalDateTime
+   */
+  public static LocalDateTime getTodayEndTime() {
+    return LocalDateTime.now().with(LocalTime.MAX);
+  }
+
+  /**
+   * getCurrentHour24Format
+   *
+   * <p>get current hour in 24
+   *
+   * @author Created by ivan at 下午4:17 2020/1/13.
+   * @return java.lang.String
+   */
+  public static String getCurrentHour24Format() {
+    return getGivenHour24Format(LocalDateTime.now());
+  }
+
+  /**
+   * getGivenHour24Format
+   *
+   * <p>get hour in 24 of given LDT
+   *
+   * @author Created by ivan at 下午4:18 2020/1/13.
+   * @return java.lang.String
+   */
+  public static String getGivenHour24Format(LocalDateTime localDateTime) {
+    return "" + localDateTime.getHour();
+  }
+
+  /**
+   * getDateTime25Length
+   *
+   * <p>build String on current LDT in "yyyy-MM-dd+HH:mm:ss.SSSSSS" format
+   *
+   * <p>2020-01-13+16:19:04.24900
+   *
+   * @author Created by ivan at 下午4:18 2020/1/13.
+   * @return java.lang.String
+   */
+  public static String getDateTime26Length() {
+    return toString(LocalDateTime.now(), DateTimePatterns.DATE_TIME_LENGTH_26);
+  }
+  /**
+   * getDateTime8Length
+   *
+   * <p>build String on current LDT in yyyyMMdd format
+   *
+   * <p>20200113
+   *
+   * @author Created by ivan at 下午4:19 2020/1/13.
+   * @return java.lang.String
+   */
+  public static String getDateTime8Length() {
+    return toString(LocalDateTime.now(), DateTimePatterns.ABSOLUTE_DATE_PATTERN);
+  }
+
+  /**
+   * getDate
+   *
+   * <p>Get now in "yyyy-MM-dd HH:mm:ss"
+   *
+   * @author Created by ivan at 下午2:30 2020/6/8.
+   * @return java.lang.String
+   */
+  public static String getDate() {
+    return toString(LocalDateTime.now(), DateTimePatterns.DEFAULT_DATETIME_PATTERN);
+  }
+
+  /**
+   * @author Created by Ivan at 2020/11/16.
+   *     <p>Format LDT to String
+   * @param localDateTime : given ldt
+   * @param Pattern : given pattern
+   * @return java.lang.String
+   */
+  public static String toString(LocalDateTime localDateTime, String Pattern) {
+    return localDateTime.format(DateTimeFormatter.ofPattern(Pattern));
+  }
+
+  /**
+   * LDT to String in format yyyyMMdd HH:mm:ss
+   *
+   * @author Created by ivan on 2:33 PM 11/24/20.
+   * @param localDateTime : given ldt
+   * @return java.lang.String
+   */
+  public static String toString(LocalDateTime localDateTime) {
+    return toString(localDateTime, DateTimePatterns.DEFAULT_DATETIME_PATTERN);
+  }
+
+  /**
+   * LDT toTimestamp
+   *
+   * @author Created by ivan on 5:17 PM 1/4/21.
+   * @param localDateTime : given ldt
+   * @return long
+   */
+  public static long toTimestamp(LocalDateTime localDateTime) {
+    return toTimestamp(localDateTime, ZoneId.systemDefault());
+  }
+
+  /**
+   * LDT toTimestamp
+   *
+   * @author Created by ivan on 5:17 PM 1/4/21.
+   * @param localDateTime : given ldt
+   * @param zoneId :
+   * @return long
+   */
+  public static long toTimestamp(LocalDateTime localDateTime, ZoneId zoneId) {
+    return localDateTime
+        .atZone(ObjectHelper.defaultIfNull(zoneId, ZoneId.systemDefault()))
+        .toInstant()
+        .toEpochMilli();
   }
 }
