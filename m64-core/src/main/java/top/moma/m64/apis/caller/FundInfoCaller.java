@@ -1,21 +1,20 @@
 package top.moma.m64.apis.caller;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import top.moma.m64.apis.ApiURIConstatns;
-import top.moma.m64.apis.entity.vo.params.FundInfoParams;
-import top.moma.m64.apis.entity.vo.response.FundInfoResponse;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.QueryMap;
+import top.moma.m64.apis.ApiURIConstants;
+
+import java.util.Map;
 
 /**
- * FundInfoCaller
- *
- * <p>//TODO
+ * FundInfoCaller *
  *
  * @author ivan
  * @version 1.0 Created by ivan at 12/4/20.
  */
-@FeignClient(value = ApiURIConstatns.BASE_URL)
 public interface FundInfoCaller {
-  @GetMapping(value = ApiURIConstatns.FUND_INFO)
-  FundInfoResponse getFundInfo(FundInfoParams fundInfoParams);
+  @GET(ApiURIConstants.FUND_INFO)
+  Call<ResponseBody> getFundInfo(@QueryMap Map<String, String> fundInfoParams);
 }

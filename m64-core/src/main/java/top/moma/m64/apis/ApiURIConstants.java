@@ -8,7 +8,7 @@ package top.moma.m64.apis;
  * @author ivan
  * @version 1.0 Created by ivan at 12/4/20.
  */
-public interface ApiURIConstatns {
+public interface ApiURIConstants {
   String BASE_URL = "https://api.doctorxiong.club";
   /** 获取基金基础信息 */
   String FUND_INFO = "/v1/fund";

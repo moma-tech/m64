@@ -35,6 +35,10 @@ import java.util.Objects;
  */
 public class JsonHelper {
   private static ObjectMapper objectMapper;
+
+  static {
+    objectMapper = getObjectMapper(new ObjectMapper());
+  }
   /**
    * getObjectMapper
    *
@@ -44,7 +48,7 @@ public class JsonHelper {
    * @return com.fasterxml.jackson.databind.ObjectMapper
    */
   public static ObjectMapper getObjectMapper() {
-    return objectMapper;
+    return Objects.isNull(objectMapper) ? getObjectMapper(null) : objectMapper;
   }
 
   /**
@@ -57,7 +61,7 @@ public class JsonHelper {
    */
   public static ObjectMapper getObjectMapper(ObjectMapper thirdMapper) {
     if (Objects.isNull(thirdMapper)) {
-      return objectMapper;
+      return getObjectMapper(new ObjectMapper());
     }
     return configureObjectMapper(thirdMapper);
   }
@@ -208,7 +212,7 @@ public class JsonHelper {
   public static Object readValue(String jsonString) {
     Object object = null;
     try {
-      object = objectMapper.readValue(jsonString, Object.class);
+      object = getObjectMapper().readValue(jsonString, Object.class);
     } catch (Exception ignore) {
     }
     return object;
@@ -245,7 +249,7 @@ public class JsonHelper {
   public static <T> T readValue(String json, Class<T> clazz) {
     T t = null;
     try {
-      t = objectMapper.readValue(json, clazz);
+      t = getObjectMapper().readValue(json, clazz);
     } catch (Exception ignore) {
       throw new RuntimeException("Unable to read JSON value: " + json, ignore);
     }
@@ -288,7 +292,7 @@ public class JsonHelper {
   public static <T> T readValue(String json, TypeReference<T> valueTypeRef) {
     T t;
     try {
-      t = objectMapper.readValue(json, valueTypeRef);
+      t = getObjectMapper().readValue(json, valueTypeRef);
     } catch (Exception ignore) {
       throw new RuntimeException(ignore);
     }
@@ -334,7 +338,7 @@ public class JsonHelper {
       return object.toString();
     }
     try {
-      return objectMapper.writeValueAsString(object);
+      return getObjectMapper().writeValueAsString(object);
     } catch (JsonProcessingException ignore) {
       // TODO maybe ignored
       throw new RuntimeException(ignore);

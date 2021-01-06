@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.moma.m64.apis.service.FundInfoService;
 
+import java.io.IOException;
+
 /**
  * TestController
  *
@@ -19,6 +21,11 @@ public class TestController {
 
   @GetMapping(value = "/test")
   public String test() {
-    return fundInfoService.getFundInfo("202015,007339");
+    try {
+      return fundInfoService.getFundInfo("202015,007339");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 }

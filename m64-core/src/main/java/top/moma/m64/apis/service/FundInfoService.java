@@ -1,11 +1,21 @@
 package top.moma.m64.apis.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import okhttp3.ResponseBody;
 import org.springframework.stereotype.Service;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import top.moma.m64.apis.ApiURIConstants;
 import top.moma.m64.apis.caller.FundInfoCaller;
 import top.moma.m64.apis.entity.vo.params.FundInfoParams;
 import top.moma.m64.apis.entity.vo.response.FundInfoResponse;
+import top.moma.m64.apis.entity.vo.response.TestResponse;
+import top.moma.m64.core.helper.bean.BeanHelper;
 import top.moma.m64.core.helper.json.JsonHelper;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * FundInfoService
@@ -17,11 +27,46 @@ import top.moma.m64.core.helper.json.JsonHelper;
  */
 @Service
 public class FundInfoService {
-  @Autowired FundInfoCaller fundInfoCaller;
 
-  public String getFundInfo(String code) {
+  public String getFundInfo(String code) throws IOException {
+    Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiURIConstants.BASE_URL).build();
+    FundInfoCaller fundInfoCaller = retrofit.create(FundInfoCaller.class);
+
     FundInfoParams fundInfoParams = FundInfoParams.builder().code(code).build();
-    FundInfoResponse fundInfoResponse = fundInfoCaller.getFundInfo(fundInfoParams);
+    Object fundInfoResponse =
+        fundInfoCaller.getFundInfo(BeanHelper.beanToStringMap(fundInfoParams)).execute().body();
     return JsonHelper.toJson(fundInfoParams);
+  }
+
+  public static void main(String[] args) {
+    Retrofit retrofit =
+        new Retrofit.Builder()
+            // .addConverterFactory(JacksonConverterFactory.create())
+            .baseUrl(ApiURIConstants.BASE_URL)
+            .build();
+    FundInfoCaller fundInfoCaller = retrofit.create(FundInfoCaller.class);
+    FundInfoParams fundInfoParams = FundInfoParams.builder().code("000001").build();
+    FundInfoResponse fundInfoResponse = null;
+    Map<String, String> a = BeanHelper.beanToStringMap(fundInfoParams);
+    Call<ResponseBody> b = fundInfoCaller.getFundInfo(a);
+    b.enqueue(
+        new Callback<ResponseBody>() {
+          @Override
+          public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            try {
+              // System.out.println(response.body().string());
+              TestResponse testResponse =
+                  JsonHelper.readValue(response.body().string(), TestResponse.class);
+              System.out.println(testResponse.getData().getCode());
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+
+          @Override
+          public void onFailure(Call<ResponseBody> call, Throwable t) {
+            t.printStackTrace();
+          }
+        });
   }
 }

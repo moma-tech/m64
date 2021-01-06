@@ -1,7 +1,9 @@
 package top.moma.m64.apis.entity.vo.response;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import top.moma.m64.core.helper.json.JsonHelper;
 
 import java.util.List;
 
@@ -76,5 +78,19 @@ public class FundInfoResponse {
 
     // 净值估算更新日期,,日期格式为yy-MM-dd HH:mm.2019-06-27 15:00代表当天下午3点
     private String expectWorthDate;
+  }
+
+  public static void main(String[] args) {
+    String json =
+        "{\"code\":200,\"message\":\"操作成功\",\"data\":[{\"code\":\"000001\",\"name\":\"华夏成长混合\",\"netWorthDate\":\"2021-01-05\",\"netWorth\":1.372,\"dayGrowth\":\"0.51\",\"expectWorthDate\":\"2021-01-06 15:00:00\",\"expectWorth\":1.3766,\"expectGrowth\":\"0.33\",\"lastWeekGrowth\":\"3.8607\",\"lastMonthGrowth\":\"0.13\",\"lastThreeMonthsGrowth\":\"2.73\",\"lastSixMonthsGrowth\":\"8.36\",\"lastYearGrowth\":\"26.34\"}],\"meta\":\"000001\"}";
+    /* FundInfoResponse f = FundInfoResponse.fromJson(json, FundInfoResponse.class);
+    System.out.println(f.getData());*/
+
+    ObjectMapper mapper = new ObjectMapper();
+    FundInfoResponse g = null;
+   // JsonHelper.getObjectMapper();
+    g = JsonHelper.readValue(json, FundInfoResponse.class);
+
+    System.out.println(g.getData().get(0).getDayGrowth());
   }
 }
