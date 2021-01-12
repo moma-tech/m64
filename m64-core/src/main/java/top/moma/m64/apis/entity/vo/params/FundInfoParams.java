@@ -16,6 +16,6 @@ import lombok.Data;
 public class FundInfoParams implements java.io.Serializable {
 
   private static final long serialVersionUID = -4491982669097036941L;
-  // 基金代码
+  /** 基金代码(必填)逗号隔开支持多个查询 */
   private String code;
 }
