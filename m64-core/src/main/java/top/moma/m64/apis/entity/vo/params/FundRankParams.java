@@ -15,7 +15,6 @@ import java.util.List;
  * @author ivan
  * @version 1.0 Created by ivan at 1/12/21.
  */
-@NoArgsConstructor
 @Data
 @Builder
 public class FundRankParams implements Serializable {

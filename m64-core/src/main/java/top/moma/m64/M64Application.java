@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * M64Application
  *
- * <p>//TODO
- *
  * @author ivan
  * @version 1.0 Created by ivan at 12/4/20.
  */
