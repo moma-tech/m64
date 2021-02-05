@@ -1,6 +1,7 @@
 package top.moma.m64.core.helper;
 
 import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.exceptions.M64Exception;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -719,5 +720,21 @@ public class TypeHelper {
             .replaceFirst("(零.)+", "")
             .replaceAll("(零.)+", "零")
             .replaceAll("^整$", "零元整");
+  }
+
+  /**
+   * cast Source to T
+   *
+   * @author Created by ivan on 5:50 PM 2/5/21.
+   * @param source : source object
+   * @return T: return Object
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T cast(Object source) {
+    try {
+      return (T) source;
+    } catch (Exception ex) {
+      throw new M64Exception(ex);
+    }
   }
 }
