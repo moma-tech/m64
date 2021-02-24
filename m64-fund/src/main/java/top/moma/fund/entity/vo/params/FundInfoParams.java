@@ -1,5 +1,6 @@
 package top.moma.fund.entity.vo.params;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +14,7 @@ import lombok.Data;
  */
 @Data
 @Builder
+@AllArgsConstructor
 public class FundInfoParams implements java.io.Serializable {
 
   private static final long serialVersionUID = -4491982669097036941L;

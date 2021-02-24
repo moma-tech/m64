@@ -1,17 +1,11 @@
 package top.moma.fund.service;
 
-import okhttp3.ResponseBody;
 import org.springframework.stereotype.Service;
-import retrofit2.Call;
-import retrofit2.Retrofit;
 import top.moma.fund.ApiURIConstants;
-import top.moma.fund.caller.CallerHelper;
+import top.moma.fund.HttpMethodConstants;
 import top.moma.fund.caller.FundApiCaller;
 import top.moma.fund.entity.vo.params.*;
 import top.moma.fund.entity.vo.response.*;
-import top.moma.m64.core.helper.bean.BeanHelper;
-
-import java.util.Map;
 
 /**
  * FundApiServiceImpl
@@ -24,30 +18,48 @@ import java.util.Map;
 @Service
 public class FundApiServiceImpl implements FundApiService {
 
-  private FundApiCaller fundApiCaller;
-
-  public FundApiServiceImpl() {
-    Retrofit retrofit = new Retrofit.Builder().baseUrl(ApiURIConstants.BASE_URL).build();
-    fundApiCaller = retrofit.create(FundApiCaller.class);
-  }
-
   @Override
   public FundAllResponse getFundAllResponse(FundAllParams fundAllParams) {
-    return null;
+    FundAllResponse fundAllResponse = null;
+    try {
+      fundAllResponse =
+          FundApiCaller.getResponse(
+              HttpMethodConstants.GET,
+              ApiURIConstants.FUND_ALL,
+              fundAllParams,
+              FundAllResponse.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return fundAllResponse;
   }
 
   @Override
   public FundHotResponse getFundHotResponse(FundHotParams fundHotParams) {
-    return null;
+    FundHotResponse fundHotResponse = null;
+    try {
+      fundHotResponse =
+          FundApiCaller.getResponse(
+              HttpMethodConstants.GET,
+              ApiURIConstants.FUND_HOT,
+              fundHotParams,
+              FundHotResponse.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return fundHotResponse;
   }
 
   @Override
   public FundInfoResponse getFundInfoResponse(FundInfoParams fundInfoParams) {
     FundInfoResponse fundInfoResponse = null;
-    Map<String, String> a = BeanHelper.beanToStringMap(fundInfoParams);
-    Call<ResponseBody> b = fundApiCaller.getFundInfo(a);
     try {
-      fundInfoResponse = CallerHelper.getResponse(b, FundInfoResponse.class);
+      fundInfoResponse =
+          FundApiCaller.getResponse(
+              HttpMethodConstants.GET,
+              ApiURIConstants.FUND_INFO,
+              fundInfoParams,
+              FundInfoResponse.class);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -56,23 +68,67 @@ public class FundApiServiceImpl implements FundApiService {
 
   @Override
   public FundPositionResponse getFundPositionResponse(FundPositionParams fundPositionParams) {
-    return null;
+    FundPositionResponse fundPositionResponse = null;
+    try {
+      fundPositionResponse =
+          FundApiCaller.getResponse(
+              HttpMethodConstants.GET,
+              ApiURIConstants.FUND_POSITION,
+              fundPositionParams,
+              FundPositionResponse.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return fundPositionResponse;
   }
 
   @Override
   public FundRankResponse getFundRankResponse(FundRankParams fundRankParams) {
-    return null;
+    FundRankResponse fundRankResponse = null;
+    try {
+      fundRankResponse =
+          FundApiCaller.getResponse(
+              HttpMethodConstants.GET,
+              ApiURIConstants.FUND_RANK,
+              fundRankParams,
+              FundRankResponse.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return fundRankResponse;
   }
 
   @Override
   public MonetaryFundDetailResponse getMonetaryFundDetailResponse(
       FundDetailParams fundDetailParams) {
-    return null;
+    MonetaryFundDetailResponse monetaryFundDetailResponse = null;
+    try {
+      monetaryFundDetailResponse =
+          FundApiCaller.getResponse(
+              HttpMethodConstants.GET,
+              ApiURIConstants.FUND_DETAIL,
+              fundDetailParams,
+              MonetaryFundDetailResponse.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return monetaryFundDetailResponse;
   }
 
   @Override
   public NonMonetaryFundDetailResponse getNonMonetaryFundDetailResponse(
       FundDetailParams fundDetailParams) {
-    return null;
+    NonMonetaryFundDetailResponse nonMonetaryFundDetailResponse = null;
+    try {
+      nonMonetaryFundDetailResponse =
+          FundApiCaller.getResponse(
+              HttpMethodConstants.GET,
+              ApiURIConstants.FUND_DETAIL,
+              fundDetailParams,
+              NonMonetaryFundDetailResponse.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return nonMonetaryFundDetailResponse;
   }
 }
