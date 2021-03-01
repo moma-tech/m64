@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Prod Settings ###
+/m64-fund/src/main/resources/application-prod.yml

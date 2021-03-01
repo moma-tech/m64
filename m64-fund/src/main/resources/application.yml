@@ -8,10 +8,10 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
-      url: jdbc:mysql://121.36.62.166:3306/fund?tinyInt1isBit=false&useUnicode=true&autoReconnect=true&useSSL=false&characterEncoding=UTF8&allowMultiQueries=true&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+      url: jdbc:mysql://a.b.c.d:3306/fund?tinyInt1isBit=false&useUnicode=true&autoReconnect=true&useSSL=false&characterEncoding=UTF8&allowMultiQueries=true&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
       username: moma
-      password: Pq6/hB/fom8njo8Pu7DdRmPVqud/Kna0RxQWaIyx6w1Ui8TcO/Cxr1rLYnXRypu4Oe5fLJWGgmUVB01A2n4b1g==
-      connectionProperties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAPMvAZepxl9af6NzrGBkVR6kvj3ioOYjFUmjH9DFwxMaMZvDjKMKvowa4lH4fSpBPFeyMUwpv6vUuaTagTXBiPMCAwEAAQ==
+      password:
+      connectionProperties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJDuMoNNcVoYuoGKEAHF0Gaqt3rF2YSLiRZSbwBWsI+8mf262AnB2OQ9QFdY7u5f+TtOrZE3qtWHiyqBzrjvahUCAwEAAQ==
       filter:
         config:
           enabled: true
@@ -20,3 +20,5 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  profiles:
+    active: @profileActive@
