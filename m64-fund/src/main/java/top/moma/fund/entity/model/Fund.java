@@ -1,5 +1,10 @@
 package top.moma.fund.entity.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 /**
@@ -12,11 +17,28 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tbl_fund")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Fund {
+
   @Id // 这是一个主键
-  @GeneratedValue(strategy = GenerationType.IDENTITY) // 自增主键
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "last_name", length = 50) // 这是和数据表对应的一个列
-  private String lastName;
+  @Column(name = "fund_code", length = 50)
+  private String fundCode;
+
+  @Column(name = "fund_name", length = 255)
+  private String fundName;
+
+  @Column(name = "fund_type", length = 255)
+  private String fundType;
+
+  @Column(name = "fund_manager", length = 255)
+  private String fundManager;
+
+  @Column(name = "fund_scale", length = 255)
+  private String fundScale;
 }
