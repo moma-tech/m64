@@ -73,15 +73,16 @@ public class ManageController {
       if (!fundPriceRepository.exists(fundPricedExample)) {
         FundInfoResponse fundInfoResponse =
             fundApiService.getFundInfoResponse(FundInfoParams.builder().code(fundCode).build());
-        if (CollectionHelper.isNotEmpty(fundInfoResponse.getData())) {}
-        FundPrice fundPrice =
-            FundPrice.builder()
-                .fundCode(fundCode)
-                .netWorth(fundInfoResponse.getData().get(0).getNetWorth().toString())
-                .netWorthDate(
-                    DateTimeHelper.parseDate(fundInfoResponse.getData().get(0).getNetWorthDate()))
-                .build();
-        fundPriceRepository.save(fundPrice);
+        if (CollectionHelper.isNotEmpty(fundInfoResponse.getData())) {
+          FundPrice fundPrice =
+              FundPrice.builder()
+                  .fundCode(fundCode)
+                  .netWorth(fundInfoResponse.getData().get(0).getNetWorth().toString())
+                  .netWorthDate(
+                      DateTimeHelper.parseDate(fundInfoResponse.getData().get(0).getNetWorthDate()))
+                  .build();
+          fundPriceRepository.save(fundPrice);
+        }
       }
     }
     return null;
