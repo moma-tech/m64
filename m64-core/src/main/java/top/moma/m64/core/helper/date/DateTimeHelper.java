@@ -518,7 +518,7 @@ public class DateTimeHelper {
    */
   public static String getDateFormat(String str) {
     boolean year = false;
-    Pattern pattern = Pattern.compile("^[-+]?[\\d]*$");
+    Pattern pattern = Pattern.compile("^[\\d]*$");
     if (pattern.matcher(str.substring(0, 4)).matches()) {
       year = true;
     }
