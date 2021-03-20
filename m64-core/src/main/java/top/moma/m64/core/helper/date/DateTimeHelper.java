@@ -513,8 +513,8 @@ public class DateTimeHelper {
    * 常规自动日期格式识别
    *
    * @param str 时间字符串
-   * @return Date
-   * @author dc
+   * @return Date Pattern
+   * @author Ivan
    */
   public static String getDateFormat(String str) {
     boolean year = false;
@@ -568,9 +568,5 @@ public class DateTimeHelper {
       }
     }
     return sb.toString();
-  }
-
-  public static void main(String[] args) {
-    System.out.println(parseDate("2021-04-12 12:00:00", getDateFormat("2021-04-12 12:00:00")));
   }
 }
