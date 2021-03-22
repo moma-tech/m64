@@ -81,6 +81,7 @@
                     <include>resources/**</include>
                     <include>*.xml</include>
                     <include>*.properties</include>
+                    <include>*.json</include>
                 </includes>
             </resource>
             <!-- 过滤配置文件到config目录 -->

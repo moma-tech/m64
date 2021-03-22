@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.moma.m64.core.helper.ObjectHelper;
 import top.moma.m64.core.helper.date.DateTimeHelper;
+import top.moma.m64.core.helper.io.FileHelper;
+import top.moma.m64.core.helper.json.JsonHelper;
 import top.moma.support.SupportConstants;
+import top.moma.support.entity.model.HolidaySetting;
 import top.moma.support.entity.model.OfficialHoliday;
 import top.moma.support.repo.OfficialHolidayRepository;
 
@@ -28,35 +31,22 @@ public class OfficialHolidayController {
 
   @PostMapping("/holiday/add")
   public String addOfficialHoliday(String date) {
-    LocalDate localDate = DateTimeHelper.parseDate(date, DateTimeHelper.getDateFormat(date));
-    OfficialHoliday dayQuery = OfficialHoliday.builder().officialDate(localDate).build();
-    Example<OfficialHoliday> dayExample = Example.of(dayQuery);
-    if (officialHolidayRepository.exists(dayExample)) {
+    OfficialHoliday officialHoliday = buildHoliday(date, SupportConstants.OFFICIAL_HOLIDAY);
+    if (ObjectHelper.isEmpty(officialHoliday)) {
       return "Existed";
     }
-
-    officialHolidayRepository.save(
-        OfficialHoliday.builder()
-            .officialDate(localDate)
-            .dayType(SupportConstants.OFFICIAL_HOLIDAY)
-            .build());
-    return localDate.toString();
+    officialHolidayRepository.save(officialHoliday);
+    return officialHoliday.getOfficialDate().toString();
   }
 
   @PostMapping("/workday/add")
   public String addOfficialWorkday(String date) {
-    LocalDate localDate = DateTimeHelper.parseDate(date, DateTimeHelper.getDateFormat(date));
-    OfficialHoliday dayQuery = OfficialHoliday.builder().officialDate(localDate).build();
-    Example<OfficialHoliday> dayExample = Example.of(dayQuery);
-    if (officialHolidayRepository.exists(dayExample)) {
+    OfficialHoliday officialHoliday = buildHoliday(date, SupportConstants.OFFICIAL_WORKDAY);
+    if (ObjectHelper.isEmpty(officialHoliday)) {
       return "Existed";
     }
-    officialHolidayRepository.save(
-        OfficialHoliday.builder()
-            .officialDate(localDate)
-            .dayType(SupportConstants.OFFICIAL_WORKDAY)
-            .build());
-    return localDate.toString();
+    officialHolidayRepository.save(officialHoliday);
+    return officialHoliday.getOfficialDate().toString();
   }
 
   @GetMapping("/dayCheck")
@@ -77,5 +67,44 @@ public class OfficialHolidayController {
         return SupportConstants.WEEKEND;
       }
     }
+  }
+
+  @GetMapping("/importSetting")
+  public String importSetting(String settingName) {
+    if (ObjectHelper.isEmpty(settingName)) {
+      settingName = "holiday-2021.json";
+    }
+    String content = ObjectHelper.toString(FileHelper.readBytes("classpath:" + settingName));
+    HolidaySetting holidaySetting = JsonHelper.readValue(content, HolidaySetting.class);
+    OfficialHoliday officialHoliday = null;
+    if (ObjectHelper.isNotEmpty(holidaySetting.getHoliday())) {
+      for (String holiday : holidaySetting.getHoliday()) {
+        officialHoliday = buildHoliday(holiday, SupportConstants.OFFICIAL_HOLIDAY);
+        if (ObjectHelper.isEmpty(officialHoliday)) {
+          return "Existed";
+        }
+        officialHolidayRepository.save(officialHoliday);
+      }
+    }
+    if (ObjectHelper.isNotEmpty(holidaySetting.getWorkday())) {
+      for (String holiday : holidaySetting.getHoliday()) {
+        officialHoliday = buildHoliday(holiday, SupportConstants.OFFICIAL_WORKDAY);
+        if (ObjectHelper.isEmpty(officialHoliday)) {
+          return "Existed";
+        }
+        officialHolidayRepository.save(officialHoliday);
+      }
+    }
+    return null;
+  }
+
+  private OfficialHoliday buildHoliday(String date, int dayType) {
+    LocalDate localDate = DateTimeHelper.parseDate(date, DateTimeHelper.getDateFormat(date));
+    OfficialHoliday dayQuery = OfficialHoliday.builder().officialDate(localDate).build();
+    Example<OfficialHoliday> dayExample = Example.of(dayQuery);
+    if (officialHolidayRepository.exists(dayExample)) {
+      return null;
+    }
+    return OfficialHoliday.builder().officialDate(localDate).dayType(dayType).build();
   }
 }
