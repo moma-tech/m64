@@ -1,6 +1,7 @@
 package top.moma.support.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,13 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.moma.m64.core.helper.ObjectHelper;
 import top.moma.m64.core.helper.date.DateTimeHelper;
-import top.moma.m64.core.helper.io.FileHelper;
+import top.moma.m64.core.helper.io.IoHelper;
 import top.moma.m64.core.helper.json.JsonHelper;
 import top.moma.support.SupportConstants;
 import top.moma.support.entity.model.HolidaySetting;
 import top.moma.support.entity.model.OfficialHoliday;
 import top.moma.support.repo.OfficialHolidayRepository;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 /**
@@ -70,11 +72,12 @@ public class OfficialHolidayController {
   }
 
   @GetMapping("/importSetting")
-  public String importSetting(String settingName) {
+  public String importSetting(String settingName) throws IOException {
     if (ObjectHelper.isEmpty(settingName)) {
       settingName = "holiday-2021.json";
     }
-    String content = ObjectHelper.toString(FileHelper.readBytes("classpath:" + settingName));
+    ClassPathResource classPathResource = new ClassPathResource(settingName);
+    String content = new String(IoHelper.readBytes(classPathResource.getInputStream()));
     HolidaySetting holidaySetting = JsonHelper.readValue(content, HolidaySetting.class);
     OfficialHoliday officialHoliday = null;
     if (ObjectHelper.isNotEmpty(holidaySetting.getHoliday())) {
@@ -87,7 +90,7 @@ public class OfficialHolidayController {
       }
     }
     if (ObjectHelper.isNotEmpty(holidaySetting.getWorkday())) {
-      for (String holiday : holidaySetting.getHoliday()) {
+      for (String holiday : holidaySetting.getWorkday()) {
         officialHoliday = buildHoliday(holiday, SupportConstants.OFFICIAL_WORKDAY);
         if (ObjectHelper.isEmpty(officialHoliday)) {
           return "Existed";
