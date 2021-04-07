@@ -1,8 +1,10 @@
 package top.moma.m64.core.helper.bean;
 
 import org.springframework.cglib.beans.BeanMap;
+import top.moma.m64.core.constants.StringConstants;
 import top.moma.m64.core.helper.ClassHelper;
 import top.moma.m64.core.helper.CollectionHelper;
+import top.moma.m64.core.helper.ObjectHelper;
 import top.moma.m64.core.helper.StringHelper;
 
 import java.util.*;
@@ -129,5 +131,32 @@ public class BeanHelper {
     BeanMap beanMap = BeanMap.create(bean);
     beanMap.putAll(map);
     return bean;
+  }
+
+  /**
+   * Converter Bean to key=value&key=value
+   *
+   * @author Created by Ivan at 2021/4/7.
+   * @return java.lang.String : return char sequence
+   * @param bean : input bean
+   */
+  public static String beanToStringParis(Object bean) {
+    if (ObjectHelper.isNotEmpty(bean)) {
+      BeanMap beanMap = BeanMap.create(bean);
+      StringBuilder stringBuilder = new StringBuilder();
+      Iterator<Object> keyIterator = beanMap.keySet().iterator();
+      Object key;
+      while (keyIterator.hasNext()) {
+        key = keyIterator.next();
+        if (ObjectHelper.isNotEmpty(key)) {
+          stringBuilder.append(key).append("=").append(beanMap.get(key));
+          if (keyIterator.hasNext()) {
+            stringBuilder.append("&");
+          }
+        }
+      }
+      return stringBuilder.toString();
+    }
+    return StringConstants.EMPTY;
   }
 }
