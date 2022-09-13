@@ -1,8 +1,8 @@
 package top.moma.m64.core.helper.io;
 
-import org.springframework.util.Assert;
 import top.moma.m64.core.constants.IoConstants;
 import top.moma.m64.core.exceptions.M64Exception;
+import top.moma.m64.core.helper.AssertHelper;
 
 import java.io.*;
 
@@ -87,8 +87,8 @@ public class IoHelper {
    * @return long : total bytes
    */
   public static long copy(InputStream in, OutputStream out, int bufferSize) throws M64Exception {
-    Assert.notNull(in, "InputStream is null !");
-    Assert.notNull(out, "OutputStream is null !");
+    AssertHelper.notNull(in, "InputStream is null !");
+    AssertHelper.notNull(out, "OutputStream is null !");
     if (bufferSize <= 0) {
       bufferSize = IoConstants.DEFAULT_BUFFER_SIZE;
     }

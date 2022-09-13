@@ -13,5 +13,4 @@ public enum JsonNamingStrategyEnum {
   LOWER_CAMEL_CASE,
   /** UNDERSCORE */
   SNAKE_CASE,
-  ;
 }

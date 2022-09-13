@@ -1,5 +1,6 @@
 package top.moma.m64.core.helper;
 
+import top.moma.m64.core.constants.DigitalConstants;
 import top.moma.m64.core.constants.StringConstants;
 import top.moma.m64.core.exceptions.M64Exception;
 
@@ -238,7 +239,7 @@ public class TypeHelper {
    * 转换为Integer数组<br>
    *
    * @param split 分隔符
-   * @param split 被转换的值
+   * @param str 被转换的值
    * @return 结果
    */
   public static Integer[] toIntArray(String split, String str) {
@@ -288,7 +289,7 @@ public class TypeHelper {
    * 转换为String数组<br>
    *
    * @param split 分隔符
-   * @param split 被转换的值
+   * @param str 被转换的值
    * @return 结果
    */
   public static String[] toStrArray(String split, String str) {
@@ -576,13 +577,14 @@ public class TypeHelper {
       return (BigDecimal) value;
     }
     if (value instanceof Long) {
-      return new BigDecimal((Long) value);
+      return BigDecimal.valueOf((Long) value);
     }
     if (value instanceof Double) {
-      return new BigDecimal((Double) value);
+
+      return BigDecimal.valueOf((Double) value);
     }
     if (value instanceof Integer) {
-      return new BigDecimal((Integer) value);
+      return BigDecimal.valueOf((Integer) value);
     }
     final String valueStr = StringHelper.toString(value, null);
     if (StringHelper.isEmpty(valueStr)) {
@@ -598,13 +600,14 @@ public class TypeHelper {
   /**
    * 转换为BigDecimal<br>
    * 如果给定的值为空，或者转换失败，返回默认值<br>
+   * 默认值 0.0<br>
    * 转换失败不会报错
    *
    * @param value 被转换的值
    * @return 结果
    */
   public static BigDecimal toBigDecimal(Object value) {
-    return toBigDecimal(value, null);
+    return toBigDecimal(value, new BigDecimal(DigitalConstants.DIGITAL_DEFAULT_DOUBLE_STRING));
   }
 
   /**
@@ -620,8 +623,8 @@ public class TypeHelper {
     byte[] b = new byte[hex.length() / 2];
     for (int i = 0, j = 0, l = hex.length(); i < l; i++, j++) {
       String swap = "" + arr[i++] + arr[i];
-      int byteint = Integer.parseInt(swap, 16) & 0xFF;
-      b[j] = new Integer(byteint).byteValue();
+      int byteInt = Integer.parseInt(swap, 16) & 0xFF;
+      b[j] = Integer.valueOf(byteInt).byteValue();
     }
     return b;
   }
@@ -632,14 +635,14 @@ public class TypeHelper {
    * @param b byte[] 需要转换的字节数组
    * @return String 十六进制字符串
    */
-  public static String byteToHex(byte b[]) {
+  public static String byteToHex(byte[] b) {
     if (b == null) {
       throw new IllegalArgumentException("Argument b ( byte array ) is null! ");
     }
     String hs = "";
     String stmp;
-    for (int n = 0; n < b.length; n++) {
-      stmp = Integer.toHexString(b[n] & 0xff);
+    for (byte value : b) {
+      stmp = Integer.toHexString(value & 0xff);
       if (stmp.length() == 1) {
         hs = hs + "0" + stmp;
       } else {
@@ -647,7 +650,6 @@ public class TypeHelper {
       }
     }
     return hs.toLowerCase();
-    // return hs.toUpperCase();
   }
 
   /**
@@ -658,7 +660,7 @@ public class TypeHelper {
    */
   public static byte[] hexStringToBytes(String hexString) {
     if (hexString == null || hexString.equals("")) {
-      return null;
+      return new byte[0];
     }
 
     hexString = hexString.toUpperCase();

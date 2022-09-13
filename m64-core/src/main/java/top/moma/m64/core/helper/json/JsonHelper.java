@@ -34,7 +34,7 @@ import java.util.Objects;
  * @version 1.0 Created by ivan at 11/20/20.
  */
 public class JsonHelper {
-  private static ObjectMapper objectMapper;
+  private static final ObjectMapper objectMapper;
 
   static {
     objectMapper = getObjectMapper(new ObjectMapper());

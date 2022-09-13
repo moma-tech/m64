@@ -1,6 +1,9 @@
 package top.moma.m64.core.helper;
 
-import org.springframework.util.ObjectUtils;
+import java.lang.reflect.Array;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * ObjectHelper
@@ -11,6 +14,7 @@ import org.springframework.util.ObjectUtils;
  * @version 1.0 Created by ivan at 11/20/20.
  */
 public class ObjectHelper {
+
   /**
    * if object is null, return default
    *
@@ -21,18 +25,35 @@ public class ObjectHelper {
     return isEmpty(object) ? object : defaultValue;
   }
 
+  public static boolean isEmpty(Object[] array) {
+    return array == null || array.length == 0;
+  }
+
   /**
-   * If Object null or content is empty {@link ObjectUtils#isEmpty(Object)}
+   * If Object null or content is empty
    *
    * @author Created by ivan on 1:39 PM 11/23/20.
    * @param obj : Object
    * @return boolean
    */
   public static boolean isEmpty(Object obj) {
-    return ObjectUtils.isEmpty(obj);
+    if (obj == null) {
+      return true;
+    } else if (obj instanceof Optional) {
+      return !((Optional) obj).isPresent();
+    } else if (obj instanceof CharSequence) {
+      return ((CharSequence) obj).length() == 0;
+    } else if (obj.getClass().isArray()) {
+      return Array.getLength(obj) == 0;
+    } else if (obj instanceof Collection) {
+      return ((Collection) obj).isEmpty();
+    } else {
+      return obj instanceof Map && ((Map) obj).isEmpty();
+    }
   }
+
   /**
-   * If Object not null and content is not empty {@link ObjectUtils#isEmpty(Object)} c
+   * If Object not null and content is not empty
    *
    * @author Created by ivan on 1:39 PM 11/23/20.
    * @param obj : Object
@@ -50,7 +71,7 @@ public class ObjectHelper {
    * @return java.lang.String
    */
   public static String toString(Object object) {
-    return ObjectUtils.nullSafeToString(object);
+    return StringHelper.nullSafeToString(object);
   }
 
   /**
@@ -91,6 +112,24 @@ public class ObjectHelper {
    * @return java.lang.Object[]
    */
   public static Object[] toObjectArray(Object source) {
-    return ObjectUtils.toObjectArray(source);
+    if (source instanceof Object[]) {
+      return (Object[]) source;
+    }
+    if (source == null) {
+      return new Object[0];
+    }
+    if (!source.getClass().isArray()) {
+      throw new IllegalArgumentException("Source is not an array: " + source);
+    }
+    int length = Array.getLength(source);
+    if (length == 0) {
+      return new Object[0];
+    }
+    Class<?> wrapperType = Array.get(source, 0).getClass();
+    Object[] newArray = (Object[]) Array.newInstance(wrapperType, length);
+    for (int i = 0; i < length; i++) {
+      newArray[i] = Array.get(source, i);
+    }
+    return newArray;
   }
 }

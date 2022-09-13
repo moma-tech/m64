@@ -21,6 +21,7 @@ import com.alibaba.druid.util.JdbcUtils;
 import javax.crypto.Cipher;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
@@ -174,7 +175,7 @@ public class ConfigTools {
             cipher.init(Cipher.ENCRYPT_MODE, fakePublicKey);
         }
 
-		byte[] encryptedBytes = cipher.doFinal(plainText.getBytes("UTF-8"));
+		byte[] encryptedBytes = cipher.doFinal(plainText.getBytes(StandardCharsets.UTF_8));
 		String encryptedString = Base64.byteArrayToBase64(encryptedBytes);
 
 		return encryptedString;

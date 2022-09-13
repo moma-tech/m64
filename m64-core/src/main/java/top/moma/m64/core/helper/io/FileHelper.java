@@ -4,7 +4,10 @@ import top.moma.m64.core.exceptions.M64Exception;
 import top.moma.m64.core.helper.io.file.FileOperator;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -185,5 +188,28 @@ public class FileHelper {
           }
         });
     return true;
+  }
+
+  /**
+   * transfer
+   *
+   * @param sourceFile sourceFile
+   * @param destFile destFile
+   * @return boolean
+   * @author Created by ivan
+   * @since 2022/8/19 14:38
+   */
+  public static boolean transfer(File sourceFile, File destFile) {
+    try (FileChannel in = new FileInputStream(sourceFile).getChannel();
+        FileChannel out = new FileOutputStream(FileHelper.touch(destFile)).getChannel()) {
+      long size = in.size();
+      for (long left = size; left > 0; ) {
+        left -= in.transferTo((size - left), left, out);
+      }
+      return true;
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 }

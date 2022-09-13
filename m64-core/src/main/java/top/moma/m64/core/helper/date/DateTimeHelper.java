@@ -1,6 +1,7 @@
 package top.moma.m64.core.helper.date;
 
 import top.moma.m64.core.constants.DateTimePatterns;
+import top.moma.m64.core.constants.PatternExpressions;
 import top.moma.m64.core.constants.StringConstants;
 import top.moma.m64.core.helper.ObjectHelper;
 import top.moma.m64.core.helper.StringHelper;
@@ -518,7 +519,7 @@ public class DateTimeHelper {
    */
   public static String getDateFormat(String str) {
     boolean year = false;
-    Pattern pattern = Pattern.compile("^[\\d]*$");
+    Pattern pattern = PatternExpressions.DATE_PATTERN;
     if (pattern.matcher(str.substring(0, 4)).matches()) {
       year = true;
     }

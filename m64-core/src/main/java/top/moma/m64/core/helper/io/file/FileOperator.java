@@ -23,8 +23,8 @@ import java.nio.charset.Charset;
 public class FileOperator implements java.io.Serializable {
   private static final long serialVersionUID = -2501353655694075987L;
 
-  private File file;
-  private Charset charset;
+  private final File file;
+  private final Charset charset;
 
   public FileOperator(File file) {
     this(file, CharsetHelper.CHARSET_UTF_8);

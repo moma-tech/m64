@@ -1,6 +1,5 @@
 package top.moma.m64.core.helper;
 
-import org.springframework.util.Assert;
 import top.moma.m64.core.exceptions.M64Exception;
 
 import java.lang.reflect.Constructor;
@@ -77,7 +76,7 @@ public class ClassHelper {
    * @return 返回对象的 user class
    */
   public static Class<?> getUserClass(Object object) {
-    Assert.notNull(object, "Error: Instance must not be null");
+    AssertHelper.notNull(object, "Error: Instance must not be null");
     return getUserClass(object.getClass());
   }
 
@@ -142,7 +141,7 @@ public class ClassHelper {
    * @return the package name, or the empty String if the class is defined in the default package
    */
   public static String getPackageName(Class<?> clazz) {
-    Assert.notNull(clazz, "Class must not be null");
+    AssertHelper.notNull(clazz, "Class must not be null");
     return getPackageName(clazz.getName());
   }
 
@@ -154,7 +153,7 @@ public class ClassHelper {
    * @return the package name, or the empty String if the class is defined in the default package
    */
   public static String getPackageName(String fqClassName) {
-    Assert.notNull(fqClassName, "Class name must not be null");
+    AssertHelper.notNull(fqClassName, "Class name must not be null");
     int lastDotIndex = fqClassName.lastIndexOf(PACKAGE_SEPARATOR);
     return (lastDotIndex != -1 ? fqClassName.substring(0, lastDotIndex) : "");
   }
