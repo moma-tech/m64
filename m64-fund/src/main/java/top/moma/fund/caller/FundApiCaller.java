@@ -6,9 +6,9 @@ import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
 import top.moma.fund.ApiURIConstants;
+import top.moma.m64.common.helper.json.JsonHelper;
 import top.moma.m64.core.helper.StringHelper;
 import top.moma.m64.core.helper.bean.BeanHelper;
-import top.moma.m64.core.helper.json.JsonHelper;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

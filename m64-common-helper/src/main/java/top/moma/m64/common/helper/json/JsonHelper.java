@@ -1,4 +1,4 @@
-package top.moma.m64.core.helper.json;
+package top.moma.m64.common.helper.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
