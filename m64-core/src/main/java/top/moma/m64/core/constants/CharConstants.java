@@ -9,10 +9,13 @@ package top.moma.m64.core.constants;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class CharConstants {
+
+  private CharConstants() {}
+
   /** 字符常量：空格符 {@code ' '} */
   public static final char SPACE = ' ';
   /** 字符常量：制表符 {@code '\t'} */
-  public static final char TAB = '	';
+  public static final char TAB = '\t';
   /** 字符常量：点 {@code '.'} */
   public static final char DOT = '.';
   /** 字符常量：斜杠 {@code '/'} */

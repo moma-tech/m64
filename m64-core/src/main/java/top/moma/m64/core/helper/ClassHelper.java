@@ -92,7 +92,6 @@ public class ClassHelper {
   public static <T> T newInstance(Class<T> clazz) {
     try {
       Constructor<T> constructor = clazz.getDeclaredConstructor();
-      constructor.setAccessible(true);
       return constructor.newInstance();
     } catch (InstantiationException
         | IllegalAccessException
@@ -177,8 +176,9 @@ public class ClassHelper {
     ClassLoader cl = null;
     try {
       cl = Thread.currentThread().getContextClassLoader();
-    } catch (Throwable ex) {
-      // Cannot access thread context ClassLoader - falling back...
+    } catch (Exception ex) {
+      // Cannot access thread context ClassLoader - falling back...'
+      ex.printStackTrace();
     }
     if (cl == null) {
       // No thread context class loader -> use class loader of this class.
@@ -187,8 +187,9 @@ public class ClassHelper {
         // getClassLoader() returning null indicates the bootstrap ClassLoader
         try {
           cl = ClassLoader.getSystemClassLoader();
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
           // Cannot access system ClassLoader - oh well, maybe the caller can live with null...
+          ex.printStackTrace();
         }
       }
     }

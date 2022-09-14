@@ -16,7 +16,10 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import top.moma.m64.core.constants.DateTimePatterns;
+import top.moma.m64.core.constants.StringConstants;
 import top.moma.m64.core.constants.enumeration.JsonNamingStrategyEnum;
+import top.moma.m64.core.exceptions.M64Exception;
+import top.moma.m64.core.helper.ObjectHelper;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -30,10 +33,15 @@ import java.util.Objects;
  *
  * <p>Base on Jackson Json
  *
+ * <p>自定义ObjectMapper
+ *
  * @author ivan
  * @version 1.0 Created by ivan at 11/20/20.
  */
 public class JsonHelper {
+
+  private JsonHelper() {}
+
   private static final ObjectMapper objectMapper;
 
   static {
@@ -114,37 +122,9 @@ public class JsonHelper {
     objectMapper.enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER);
     objectMapper.enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature());
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    // registerNullSerializer(objectMapper);
     // Handle Java Time & JSR310
     registerJavaTime(objectMapper);
-
-    // Handler Long 2 String
-    registerLongSerializer(objectMapper);
-
     return objectMapper;
-  }
-
-  /**
-   * @author Created by Ivan at 2020/6/3.
-   *     <p>Handle NUll to ""
-   * @param objectMapper :
-   * @return void
-   */
-  public static void registerNullSerializer(ObjectMapper objectMapper) {
-    objectMapper
-        .getSerializerProvider()
-        .setNullValueSerializer(
-            new JsonSerializer<Object>() {
-              @Override
-              public void serialize(
-                  Object paramT,
-                  JsonGenerator paramJsonGenerator,
-                  SerializerProvider paramSerializerProvider)
-                  throws IOException {
-                // 设置返回null转为 空字符串""
-                paramJsonGenerator.writeString("");
-              }
-            });
   }
 
   /**
@@ -153,7 +133,6 @@ public class JsonHelper {
    * <p>Handle Time Format to JSR310
    *
    * @author Created by ivan at 下午2:52 2020/1/10.
-   * @return com.fasterxml.jackson.databind.ObjectMapper
    */
   public static void registerJavaTime(ObjectMapper objectMapper) {
     // Handle Java Time
@@ -189,16 +168,40 @@ public class JsonHelper {
   }
 
   /**
+   * @author Created by Ivan at 2020/6/3.
+   *     <p>Handle NUll to ""
+   * @param nullString :
+   */
+  public static void registerNullSerializer(String nullString) {
+    getObjectMapper()
+        .getSerializerProvider()
+        .setNullValueSerializer(
+            new JsonSerializer<Object>() {
+              @Override
+              public void serialize(
+                  Object paramT,
+                  JsonGenerator paramJsonGenerator,
+                  SerializerProvider paramSerializerProvider)
+                  throws IOException {
+                // 设置返回null转为 空字符串""
+                paramJsonGenerator.writeString(
+                    ObjectHelper.defaultIfNull(nullString, StringConstants.EMPTY));
+              }
+            });
+  }
+
+  /**
    * registerLongSerializer
    *
    * <p>Handle Long Format to String
    *
    * @author Created by ivan at 下午2:53 2020/1/10.
    */
-  public static void registerLongSerializer(ObjectMapper objectMapper) {
+  public static void registerLongSerializer() {
     SimpleModule long2StringModule = new SimpleModule();
-    // Handle long
+    // Handle long To String
     long2StringModule.addSerializer(Long.class, ToStringSerializer.instance);
+    getObjectMapper().registerModule(long2StringModule);
   }
 
   /**
@@ -210,10 +213,11 @@ public class JsonHelper {
    * @return java.lang.Object
    */
   public static Object readValue(String jsonString) {
-    Object object = null;
+    Object object;
     try {
       object = getObjectMapper().readValue(jsonString, Object.class);
-    } catch (Exception ignore) {
+    } catch (Exception ex) {
+      throw new M64Exception("Unable to read JSON value:{}", jsonString, ex);
     }
     return object;
   }
@@ -241,24 +245,6 @@ public class JsonHelper {
   /**
    * readValue
    *
-   * <p>read json into simple class
-   *
-   * @author Created by ivan at 下午5:54 2020/1/10.
-   * @return T
-   */
-  public static <T> T readValue(String json, Class<T> clazz) {
-    T t = null;
-    try {
-      t = getObjectMapper().readValue(json, clazz);
-    } catch (Exception ignore) {
-      throw new RuntimeException("Unable to read JSON value: " + json, ignore);
-    }
-    return t;
-  }
-
-  /**
-   * readValue
-   *
    * <p>read json into simple class as specified Name Strategy
    *
    * @author Created by Ivan at 上午11:57:41 2020年1月12日
@@ -267,16 +253,30 @@ public class JsonHelper {
   public static <T> T readValue(
       String json, Class<T> clazz, JsonNamingStrategyEnum jsonNameStrategy) {
     T t = null;
+    if (JsonNamingStrategyEnum.LOWER_CAMEL_CASE.equals(jsonNameStrategy)) {
+      t = readValue(json, clazz);
+    } else if (JsonNamingStrategyEnum.SNAKE_CASE.equals(jsonNameStrategy)) {
+      setSnakeCaseMapper();
+      t = readValue(json, clazz);
+      setLowCamelCaseMapper();
+    }
+    return t;
+  }
+
+  /**
+   * readValue
+   *
+   * <p>read json into simple class
+   *
+   * @author Created by ivan at 下午5:54 2020/1/10.
+   * @return T
+   */
+  public static <T> T readValue(String json, Class<T> clazz) {
+    T t;
     try {
-      if (JsonNamingStrategyEnum.LOWER_CAMEL_CASE.equals(jsonNameStrategy)) {
-        t = readValue(json, clazz);
-      } else if (JsonNamingStrategyEnum.SNAKE_CASE.equals(jsonNameStrategy)) {
-        setSnakeCaseMapper();
-        t = readValue(json, clazz);
-        setLowCamelCaseMapper();
-      }
-    } catch (Exception ignore) {
-      throw new RuntimeException(ignore);
+      t = getObjectMapper().readValue(json, clazz);
+    } catch (Exception ex) {
+      throw new M64Exception("Unable to read JSON value:{}", json, ex);
     }
     return t;
   }
@@ -293,8 +293,8 @@ public class JsonHelper {
     T t;
     try {
       t = getObjectMapper().readValue(json, valueTypeRef);
-    } catch (Exception ignore) {
-      throw new RuntimeException(ignore);
+    } catch (Exception ex) {
+      throw new M64Exception(ex);
     }
     return t;
   }
@@ -310,17 +310,12 @@ public class JsonHelper {
   public static <T> T readValue(
       String json, TypeReference<T> valueTypeRef, JsonNamingStrategyEnum jsonNameStrategy) {
     T t = null;
-    try {
-      if (JsonNamingStrategyEnum.LOWER_CAMEL_CASE.equals(jsonNameStrategy)) {
-        t = readValue(json, valueTypeRef);
-      } else if (JsonNamingStrategyEnum.SNAKE_CASE.equals(jsonNameStrategy)) {
-        setSnakeCaseMapper();
-        t = readValue(json, valueTypeRef);
-        setLowCamelCaseMapper();
-      }
-    } catch (Exception ignore) {
-      // TODO maybe ignored
-      throw new RuntimeException(ignore);
+    if (JsonNamingStrategyEnum.LOWER_CAMEL_CASE.equals(jsonNameStrategy)) {
+      t = readValue(json, valueTypeRef);
+    } else if (JsonNamingStrategyEnum.SNAKE_CASE.equals(jsonNameStrategy)) {
+      setSnakeCaseMapper();
+      t = readValue(json, valueTypeRef);
+      setLowCamelCaseMapper();
     }
     return t;
   }
@@ -339,9 +334,8 @@ public class JsonHelper {
     }
     try {
       return getObjectMapper().writeValueAsString(object);
-    } catch (JsonProcessingException ignore) {
-      // TODO maybe ignored
-      throw new RuntimeException(ignore);
+    } catch (JsonProcessingException ex) {
+      throw new M64Exception(ex);
     }
   }
 }

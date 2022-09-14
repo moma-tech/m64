@@ -13,6 +13,8 @@ import java.time.temporal.TemporalField;
  */
 public class TemporalAccessorHelper {
 
+  private TemporalAccessorHelper() {}
+
   /**
    * Get Filed Value from Date, if non-support, return MIN/0;
    *

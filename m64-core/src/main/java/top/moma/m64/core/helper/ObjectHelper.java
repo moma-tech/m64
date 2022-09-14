@@ -15,6 +15,8 @@ import java.util.Optional;
  */
 public class ObjectHelper {
 
+  private ObjectHelper() {}
+
   /**
    * if object is null, return default
    *

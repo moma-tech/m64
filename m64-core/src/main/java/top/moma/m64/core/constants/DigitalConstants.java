@@ -9,6 +9,9 @@ package top.moma.m64.core.constants;
  * @author Created by ivan at 16:35.
  */
 public class DigitalConstants {
+
+  private DigitalConstants() {}
+
   /** Default Integer */
   public static final Integer DIGITAL_DEFAULT_INTEGER = 0;
   /** Default DOUBLE */

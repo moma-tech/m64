@@ -14,6 +14,9 @@ import top.moma.m64.core.helper.StringHelper;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class StringFormatter {
+
+  private StringFormatter() {}
+
   /**
    * 格式化字符串<br>
    * 此方法只是简单将占位符 {} 按照顺序替换为参数<br>

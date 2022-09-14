@@ -7,6 +7,9 @@ package top.moma.m64.core.constants;
  * @version 1.0 Created by ivan at 11/20/20.
  */
 public class DateTimePatterns {
+
+  private DateTimePatterns() {}
+
   public static final String DEFAULT_DATETIME_MS_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
   public static final String DEFAULT_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
   public static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";

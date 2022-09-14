@@ -23,6 +23,9 @@ import java.nio.file.attribute.BasicFileAttributes;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class FileHelper {
+
+  private FileHelper() {}
+
   /**
    * 读取文件所有数据<br>
    * 文件的长度不能超过Integer.MAX_VALUE
@@ -101,8 +104,9 @@ public class FileHelper {
     if (!file.exists()) {
       mkParentDirs(file);
       try {
-        //noinspection ResultOfMethodCallIgnored
-        file.createNewFile();
+        if (file.createNewFile()) {
+          return file;
+        }
       } catch (Exception e) {
         throw new M64Exception(e);
       }
@@ -204,7 +208,7 @@ public class FileHelper {
         FileChannel out = new FileOutputStream(FileHelper.touch(destFile)).getChannel()) {
       long size = in.size();
       for (long left = size; left > 0; ) {
-        left -= in.transferTo((size - left), left, out);
+        left = left - in.transferTo((size - left), left, out);
       }
       return true;
     } catch (IOException e) {

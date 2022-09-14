@@ -15,6 +15,9 @@ import java.util.regex.Pattern;
  * @version 1.0 Created by ivan at 11/23/20.
  */
 public class RegularPatterns {
+
+  private RegularPatterns() {}
+
   /** Pattern池 */
   private static final WeakMapCache<RegexWithFlag, Pattern> POOL = new WeakMapCache<>();
 

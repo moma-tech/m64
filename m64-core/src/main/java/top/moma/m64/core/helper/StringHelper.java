@@ -17,6 +17,8 @@ import java.util.*;
  */
 public class StringHelper {
 
+  private StringHelper() {}
+
   /**
    * if String isNotBlank
    *
@@ -404,15 +406,11 @@ public class StringHelper {
    * @return java.lang.String
    */
   public static String capitalize(String str) {
-    int strLen;
-    if (str != null && (strLen = str.length()) != 0) {
+    if (str != null && str.length() != 0) {
       char firstChar = str.charAt(0);
       return Character.isTitleCase(firstChar)
           ? str
-          : (new StringBuilder(strLen))
-              .append(Character.toTitleCase(firstChar))
-              .append(str.substring(1))
-              .toString();
+          : Character.toTitleCase(firstChar) + str.substring(1);
     } else {
       return str;
     }
@@ -426,15 +424,11 @@ public class StringHelper {
    * @return java.lang.String
    */
   public static String uncapitalize(String str) {
-    int strLen;
-    if (str != null && (strLen = str.length()) != 0) {
+    if (str != null && str.length() != 0) {
       char firstChar = str.charAt(0);
       return Character.isLowerCase(firstChar)
           ? str
-          : (new StringBuilder(strLen))
-              .append(Character.toLowerCase(firstChar))
-              .append(str.substring(1))
-              .toString();
+          : Character.toLowerCase(firstChar) + str.substring(1);
     } else {
       return str;
     }
@@ -796,9 +790,9 @@ public class StringHelper {
         nextUpperCase = Character.isUpperCase(s.charAt(i + 1));
       }
 
-      if ((i >= 0) && Character.isUpperCase(c)) {
-        if (!upperCase || !nextUpperCase) {
-          if (i > 0) sb.append('_');
+      if (Character.isUpperCase(c)) {
+        if ((!upperCase || !nextUpperCase) && i > 0) {
+          sb.append('_');
         }
         upperCase = true;
       } else {

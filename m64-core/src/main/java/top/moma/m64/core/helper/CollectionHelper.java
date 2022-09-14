@@ -15,13 +15,16 @@ import java.util.concurrent.ConcurrentMap;
  * @version 1.0
  */
 public class CollectionHelper {
+
+  private CollectionHelper() {}
+
   /**
    * Check if Collection isEmpty
    *
    * @author Created by ivan on 2:49 PM 11/20/20.
    * @return boolean
    */
-  public static boolean isEmpty(Collection coll) {
+  public static boolean isEmpty(Collection<?> coll) {
     return (Objects.isNull(coll) || coll.isEmpty());
   }
   /**
@@ -30,7 +33,7 @@ public class CollectionHelper {
    * @author Created by ivan on 2:50 PM 11/20/20.
    * @return boolean
    */
-  public static boolean isNotEmpty(Collection coll) {
+  public static boolean isNotEmpty(Collection<?> coll) {
     return !CollectionHelper.isEmpty(coll);
   }
 
@@ -40,8 +43,8 @@ public class CollectionHelper {
    * @author Created by ivan on 2:55 PM 11/20/20.
    * @return java.util.HashMap<K,V>
    */
-  public static <K, V> HashMap<K, V> newHashMap() {
-    return new HashMap<K, V>(M64Constants.INIT_MAP_SIZE);
+  public static <K, V> Map<K, V> newHashMap() {
+    return new HashMap<>(M64Constants.INIT_MAP_SIZE);
   }
 
   /**
@@ -50,8 +53,8 @@ public class CollectionHelper {
    * @author Created by ivan on 2:57 PM 11/20/20.
    * @return java.util.HashMap<K,V>
    */
-  public static <K, V> HashMap<K, V> newHashMap(int initialCapacity) {
-    return new HashMap<K, V>(initialCapacity);
+  public static <K, V> Map<K, V> newHashMap(int initialCapacity) {
+    return new HashMap<>(initialCapacity);
   }
 
   /**
@@ -60,8 +63,8 @@ public class CollectionHelper {
    * @author Created by ivan on 2:57 PM 11/20/20.
    * @return java.util.HashMap<K,V>
    */
-  public static <K, V> HashMap<K, V> newHashMap(Map<? extends K, ? extends V> map) {
-    return new HashMap<K, V>(map);
+  public static <K, V> Map<K, V> newHashMap(Map<? extends K, ? extends V> map) {
+    return new HashMap<>(map);
   }
 
   /**
@@ -70,8 +73,8 @@ public class CollectionHelper {
    * @author Created by ivan on 2:58 PM 11/20/20.
    * @return java.util.LinkedHashMap<K,V>
    */
-  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap() {
-    return new LinkedHashMap<K, V>(M64Constants.INIT_MAP_SIZE);
+  public static <K, V> Map<K, V> newLinkedHashMap() {
+    return new LinkedHashMap<>(M64Constants.INIT_MAP_SIZE);
   }
 
   /**
@@ -80,8 +83,8 @@ public class CollectionHelper {
    * @author Created by ivan on 2:59 PM 11/20/20.
    * @return java.util.LinkedHashMap<K,V>
    */
-  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
-    return new LinkedHashMap<K, V>(map);
+  public static <K, V> Map<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
+    return new LinkedHashMap<>(map);
   }
 
   /**
@@ -91,7 +94,7 @@ public class CollectionHelper {
    * @return java.util.concurrent.ConcurrentMap<K,V>
    */
   public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
-    return new ConcurrentHashMap<K, V>(M64Constants.INIT_MAP_SIZE);
+    return new ConcurrentHashMap<>(M64Constants.INIT_MAP_SIZE);
   }
 
   /**
@@ -101,8 +104,8 @@ public class CollectionHelper {
    * @return java.util.TreeMap<K,V>
    */
   @SuppressWarnings("rawtypes")
-  public static <K extends Comparable, V> TreeMap<K, V> newTreeMap() {
-    return new TreeMap<K, V>();
+  public static <K extends Comparable, V> Map<K, V> newTreeMap() {
+    return new TreeMap<>();
   }
 
   /**
@@ -111,8 +114,8 @@ public class CollectionHelper {
    * @author Created by ivan on 3:00 PM 11/20/20.
    * @return java.util.TreeMap<K,V>
    */
-  public static <K, V> TreeMap<K, V> newTreeMap(SortedMap<K, ? extends V> map) {
-    return new TreeMap<K, V>(map);
+  public static <K, V> Map<K, V> newTreeMap(SortedMap<K, ? extends V> map) {
+    return new TreeMap<>(map);
   }
 
   /**
@@ -121,8 +124,8 @@ public class CollectionHelper {
    * @author Created by ivan on 3:01 PM 11/20/20.
    * @return java.util.TreeMap<K,V>
    */
-  public static <C, K extends C, V> TreeMap<K, V> newTreeMap(Comparator<C> comparator) {
-    return new TreeMap<K, V>(comparator);
+  public static <C, K extends C, V> Map<K, V> newTreeMap(Comparator<C> comparator) {
+    return new TreeMap<>(comparator);
   }
 
   /**
@@ -131,8 +134,8 @@ public class CollectionHelper {
    * @author Created by ivan on 3:01 PM 11/20/20.
    * @return java.util.EnumMap<K,V>
    */
-  public static <K extends Enum<K>, V> EnumMap<K, V> newEnumMap(Class<K> type) {
-    return new EnumMap<K, V>((type));
+  public static <K extends Enum<K>, V> Map<K, V> newEnumMap(Class<K> type) {
+    return new EnumMap<>((type));
   }
 
   /**
@@ -141,8 +144,8 @@ public class CollectionHelper {
    * @author Created by ivan on 3:02 PM 11/20/20.
    * @return java.util.EnumMap<K,V>
    */
-  public static <K extends Enum<K>, V> EnumMap<K, V> newEnumMap(Map<K, ? extends V> map) {
-    return new EnumMap<K, V>(map);
+  public static <K extends Enum<K>, V> Map<K, V> newEnumMap(Map<K, ? extends V> map) {
+    return new EnumMap<>(map);
   }
 
   /**
@@ -151,8 +154,8 @@ public class CollectionHelper {
    * @author Created by ivan on 3:03 PM 11/20/20.
    * @return java.util.IdentityHashMap<K,V>
    */
-  public static <K, V> IdentityHashMap<K, V> newIdentityHashMap() {
-    return new IdentityHashMap<K, V>();
+  public static <K, V> Map<K, V> newIdentityHashMap() {
+    return new IdentityHashMap<>();
   }
 
   /**
@@ -162,7 +165,7 @@ public class CollectionHelper {
    * @param source : source Object
    * @return java.util.List
    */
-  public static List arrayToList(Object source) {
+  public static List<Object> arrayToList(Object source) {
     return Arrays.asList(ObjectHelper.toObjectArray(source));
   }
 }

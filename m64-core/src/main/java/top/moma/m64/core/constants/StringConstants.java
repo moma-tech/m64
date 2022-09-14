@@ -7,18 +7,23 @@ package top.moma.m64.core.constants;
  * @version 1.0 Created by ivan at 11/23/20.
  */
 public class StringConstants {
+
+  private StringConstants() {}
+
   /** ISO-8859-1 */
   public static final String ISO_8859_1 = "ISO-8859-1";
   /** UTF-8 */
   public static final String UTF_8 = "UTF-8";
   /** GBK */
   public static final String GBK = "GBK";
+  /** CLASS */
+  public static final String CLASS = "class";
 
   /** 字符串常量：空格符 {@code " "} */
   public static final String SPACE = " ";
 
   /** 字符串常量：制表符 {@code "\t"} */
-  public static final String TAB = "	";
+  public static final String TAB = "\t";
 
   /** 字符串常量：点 {@code "."} */
   public static final String DOT = ".";

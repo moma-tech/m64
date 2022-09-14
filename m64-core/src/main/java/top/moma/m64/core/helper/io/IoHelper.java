@@ -16,6 +16,8 @@ import java.io.*;
  */
 public class IoHelper {
 
+  private IoHelper() {}
+
   /**
    * Read Bytes from Input Stream, then close
    *
@@ -51,7 +53,6 @@ public class IoHelper {
    * @param out : Out Stream
    * @param closeFlag : if close
    * @param data : byte []
-   * @return void
    */
   public static void write(OutputStream out, boolean closeFlag, byte[] data) throws M64Exception {
     try {
@@ -113,7 +114,6 @@ public class IoHelper {
    *
    * @author Created by ivan on 4:02 PM 11/25/20.
    * @param closeable :
-   * @return void
    */
   public static void close(Closeable closeable) {
     if (null != closeable) {

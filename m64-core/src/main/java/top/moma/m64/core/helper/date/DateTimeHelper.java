@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
  */
 public class DateTimeHelper {
 
+  private DateTimeHelper() {}
+
   /**
    * Get DateTime of instant/timestamp with given time zone
    *
@@ -462,11 +464,11 @@ public class DateTimeHelper {
    * @author Created by Ivan at 2020/11/16.
    *     <p>Format LDT to String
    * @param localDateTime : given ldt
-   * @param Pattern : given pattern
+   * @param datePattern : given pattern
    * @return java.lang.String
    */
-  public static String toString(LocalDateTime localDateTime, String Pattern) {
-    return localDateTime.format(DateTimeFormatter.ofPattern(Pattern));
+  public static String toString(LocalDateTime localDateTime, String datePattern) {
+    return localDateTime.format(DateTimeFormatter.ofPattern(datePattern));
   }
 
   /**
@@ -507,11 +509,14 @@ public class DateTimeHelper {
   }
 
   public static int getDayOfWeek(CharSequence date) {
-    return parse(date, getDateFormat(date.toString())).getDayOfWeek().getValue();
+    LocalDateTime localDateTime = parse(date, getDateFormat(date.toString()));
+    return ObjectHelper.isEmpty(localDateTime) ? -1 : localDateTime.getDayOfWeek().getValue();
   }
 
   /**
    * 常规自动日期格式识别
+   *
+   * <p>0: year 1: month 2: day 3: hour 4: minutes 5: second 6: mill-Second
    *
    * @param str 时间字符串
    * @return Date Pattern

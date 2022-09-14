@@ -23,6 +23,8 @@ import java.util.*;
  */
 public class BeanHelper {
 
+  private BeanHelper() {}
+
   /**
    * @param bean :
    * @return java.util.Map<java.lang.String , java.lang.Object>
@@ -42,31 +44,29 @@ public class BeanHelper {
    */
   public static <T> Map<String, Object> beanToMap(T bean, boolean includeNull) {
     Map<String, Object> map = Collections.emptyMap();
-    if (ObjectHelper.isNotEmpty(bean)) {
-      try {
-        BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
-        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-        map = new HashMap<>(propertyDescriptors.length);
-        Method getter;
-        for (PropertyDescriptor property : propertyDescriptors) {
-          String key = property.getName();
-          if (key.compareToIgnoreCase("class") == 0) {
-            continue;
-          }
-          getter = property.getReadMethod();
-          Object value = getter != null ? getter.invoke(bean) : null;
-          if (Objects.nonNull(value)) {
-            map.put(key, value);
-          } else {
-            if (includeNull) {
-              map.put(key, null);
-            }
-          }
-        }
-      } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-        e.printStackTrace();
-      }
+    if (ObjectHelper.isEmpty(bean)) {
+      return map;
     }
+    try {
+      BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
+      PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+      map = new HashMap<>(propertyDescriptors.length);
+      Method getter;
+      for (PropertyDescriptor property : propertyDescriptors) {
+        String key = property.getName();
+        if (key.compareToIgnoreCase(StringConstants.CLASS) == 0) {
+          continue;
+        }
+        getter = property.getReadMethod();
+        Object value = getter != null ? getter.invoke(bean) : null;
+        if (includeNull || Objects.nonNull(value)) {
+          map.put(key, value);
+        }
+      }
+    } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
+      e.printStackTrace();
+    }
+
     return map;
   }
 
@@ -92,29 +92,26 @@ public class BeanHelper {
    */
   public static <T> Map<String, String> beanToStringMap(T bean, boolean includeNull) {
     Map<String, String> map = Collections.emptyMap();
-    if (ObjectHelper.isNotEmpty(bean)) {
-      try {
-        BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
-        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-        map = new HashMap<>(propertyDescriptors.length);
-        for (PropertyDescriptor property : propertyDescriptors) {
-          String key = property.getName();
-          if (key.compareToIgnoreCase("class") == 0) {
-            continue;
-          }
-          Method getter = property.getReadMethod();
-          Object value = getter != null ? getter.invoke(bean) : null;
-          if (Objects.nonNull(value)) {
-            map.put(key, StringHelper.toString(value));
-          } else {
-            if (includeNull) {
-              map.put(key, StringConstants.EMPTY);
-            }
-          }
+    if (ObjectHelper.isEmpty(bean)) {
+      return map;
+    }
+    try {
+      BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
+      PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+      map = new HashMap<>(propertyDescriptors.length);
+      for (PropertyDescriptor property : propertyDescriptors) {
+        String key = property.getName();
+        if (key.compareToIgnoreCase(StringConstants.CLASS) == 0) {
+          continue;
         }
-      } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-        e.printStackTrace();
+        Method getter = property.getReadMethod();
+        Object value = getter != null ? getter.invoke(bean) : StringConstants.EMPTY;
+        if (includeNull || Objects.nonNull(value)) {
+          map.put(key, StringHelper.toString(value));
+        }
       }
+    } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
+      e.printStackTrace();
     }
     return map;
   }
@@ -236,17 +233,10 @@ public class BeanHelper {
     return StringConstants.EMPTY;
   }
 
-  public static void main(String[] args) {
-    InnerTest innerTest = new InnerTest();
-    innerTest.setName("adb");
-    innerTest.setType(1);
-    Map bMap = BeanHelper.beanToMap(innerTest);
-    bMap.entrySet().stream().forEach(System.out::println);
-  }
-
   @Data
   public static class InnerTest {
     private String name;
     private Integer type;
+    private List<String> holds;
   }
 }

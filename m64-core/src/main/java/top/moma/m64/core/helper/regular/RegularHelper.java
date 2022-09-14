@@ -15,6 +15,9 @@ import java.util.regex.Pattern;
  * @version 1.0 Created by ivan at 11/23/20.
  */
 public class RegularHelper {
+
+  private RegularHelper() {}
+
   /**
    * 给定内容是否匹配正则
    *
@@ -32,7 +35,6 @@ public class RegularHelper {
       // 正则不存在则为全匹配
       return true;
     }
-    // Pattern pattern = Pattern.compile(regex, Pattern.DOTALL);
     final Pattern pattern = RegularPatterns.get(regex, Pattern.DOTALL);
     return isMatch(pattern, content);
   }

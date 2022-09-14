@@ -17,6 +17,9 @@ import java.text.NumberFormat;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class TypeHelper {
+
+  private TypeHelper() {}
+
   /**
    * 转换为字符<br>
    * 如果给定的值为null，或者转换失败，返回默认值<br>

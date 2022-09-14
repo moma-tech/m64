@@ -4,7 +4,6 @@ import top.moma.m64.core.exceptions.M64Exception;
 import top.moma.m64.core.helper.CharsetHelper;
 import top.moma.m64.core.helper.StringHelper;
 import top.moma.m64.core.helper.io.FileHelper;
-import top.moma.m64.core.helper.io.IoHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +19,7 @@ import java.nio.charset.Charset;
  * @author ivan
  * @version 1.0 Created by ivan at 11/25/20.
  */
-public class FileOperator implements java.io.Serializable {
+public class FileOperator {
   private static final long serialVersionUID = -2501353655694075987L;
 
   private final File file;
@@ -47,12 +46,9 @@ public class FileOperator implements java.io.Serializable {
     if (len >= Integer.MAX_VALUE) {
       throw new M64Exception("File is larger then max array size");
     }
-
     byte[] bytes = new byte[(int) len];
-    FileInputStream in = null;
     int readLength;
-    try {
-      in = new FileInputStream(file);
+    try (FileInputStream in = new FileInputStream(file)) {
       readLength = in.read(bytes);
       if (readLength < len) {
         throw new IOException(
@@ -60,10 +56,7 @@ public class FileOperator implements java.io.Serializable {
       }
     } catch (Exception e) {
       throw new M64Exception(e);
-    } finally {
-      IoHelper.close(in);
     }
-
     return bytes;
   }
   /**
@@ -77,15 +70,11 @@ public class FileOperator implements java.io.Serializable {
    * @throws M64Exception IO异常
    */
   public File write(byte[] data, int off, int len, boolean isAppend) throws M64Exception {
-    FileOutputStream out = null;
-    try {
-      out = new FileOutputStream(FileHelper.touch(file), isAppend);
+    try (FileOutputStream out = new FileOutputStream(FileHelper.touch(file), isAppend)) {
       out.write(data, off, len);
       out.flush();
     } catch (IOException e) {
       throw new M64Exception(e);
-    } finally {
-      IoHelper.close(out);
     }
     return file;
   }

@@ -14,6 +14,9 @@ import java.nio.charset.StandardCharsets;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class CharsetHelper {
+
+  private CharsetHelper() {}
+
   /** ISO-8859-1 */
   public static final Charset CHARSET_ISO_8859_1 = StandardCharsets.ISO_8859_1;
   /** UTF-8 */
@@ -57,7 +60,7 @@ public class CharsetHelper {
     }
 
     if (null == destCharset) {
-      srcCharset = StandardCharsets.UTF_8;
+      destCharset = StandardCharsets.UTF_8;
     }
 
     if (StringHelper.isEmpty(source) || srcCharset.equals(destCharset)) {
@@ -66,7 +69,9 @@ public class CharsetHelper {
     return new String(source.getBytes(srcCharset), destCharset);
   }
 
-  /** @return 系统字符集编码 */
+  /**
+   * @return 系统字符集编码
+   */
   public static String systemCharset() {
     return Charset.defaultCharset().name();
   }

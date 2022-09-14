@@ -19,6 +19,9 @@ import java.util.Map;
  * @version 1.0 Created by ivan at 12/31/20.
  */
 public class RSA256Helper {
+
+  private RSA256Helper() {}
+
   public static final String KEY_ALGORITHM = "RSA";
   private static final String PUBLIC_KEY = "RSAPublicKey";
   private static final String PRIVATE_KEY = "RSAPrivateKey";
@@ -26,46 +29,42 @@ public class RSA256Helper {
   private static RSA256Key rsa256Key;
 
   // 获得公钥
-  public static String getPublicKey(Map<String, Object> keyMap) throws Exception {
+  public static String getPublicKey(Map<String, Object> keyMap){
     // 获得map中的公钥对象 转为key对象
     Key key = (Key) keyMap.get(PUBLIC_KEY);
-    // byte[] publicKey = key.getEncoded();
     // 编码返回字符串
     return encryptBASE64(key.getEncoded());
   }
 
-  public static String getPublicKey(RSA256Key rsa256Key) throws Exception {
+  public static String getPublicKey(RSA256Key rsa256Key){
     // 获得map中的公钥对象 转为key对象
     Key key = rsa256Key.getRsaPublicKey();
-    // byte[] publicKey = key.getEncoded();
     // 编码返回字符串
     return encryptBASE64(key.getEncoded());
   }
 
   // 获得私钥
-  public static String getPrivateKey(Map<String, Object> keyMap) throws Exception {
+  public static String getPrivateKey(Map<String, Object> keyMap) {
     // 获得map中的私钥对象 转为key对象
     Key key = (Key) keyMap.get(PRIVATE_KEY);
-    // byte[] privateKey = key.getEncoded();
     // 编码返回字符串
     return encryptBASE64(key.getEncoded());
   }
   // 获得私钥
-  public static String getPrivateKey(RSA256Key rsa256Key) throws Exception {
+  public static String getPrivateKey(RSA256Key rsa256Key)  {
     // 获得map中的私钥对象 转为key对象
     Key key = rsa256Key.getRsaPrivateKey();
-    // byte[] privateKey = key.getEncoded();
     // 编码返回字符串
     return encryptBASE64(key.getEncoded());
   }
 
   // 解码返回byte
-  public static byte[] decryptBASE64(String key) throws Exception {
+  public static byte[] decryptBASE64(String key) {
     return Base64Decoder.decode(key);
   }
 
   // 编码返回字符串
-  public static String encryptBASE64(byte[] key) throws Exception {
+  public static String encryptBASE64(byte[] key) {
     return Base64Encoder.encode(key);
   }
 
@@ -83,7 +82,7 @@ public class RSA256Helper {
     RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
     RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
     // 公私钥对象存入map中
-    Map<String, Object> keyMap = new HashMap<String, Object>(2);
+    Map<String, Object> keyMap = new HashMap<>(2);
     keyMap.put(PUBLIC_KEY, publicKey);
     keyMap.put(PRIVATE_KEY, privateKey);
     return keyMap;
@@ -91,10 +90,7 @@ public class RSA256Helper {
 
   /**
    * 获取公私钥
-   *
-   * @return
-   * @throws Exception
-   */
+   **/
   public static synchronized RSA256Key getRSA256Key() throws Exception {
     if (rsa256Key == null) {
       synchronized (RSA256Key.class) {

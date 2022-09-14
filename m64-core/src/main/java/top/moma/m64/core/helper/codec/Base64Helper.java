@@ -18,6 +18,9 @@ import java.nio.charset.Charset;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class Base64Helper {
+
+  private Base64Helper() {}
+
   // -------------------------------------------------------------------- encode
   /**
    * base64编码

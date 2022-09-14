@@ -12,11 +12,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author ivan
  * @version 1.0 Created by ivan at 11/23/20.
  */
-public class WeakMapCache<K, V> implements java.io.Serializable {
+public class WeakMapCache<K, V> {
   private static final long serialVersionUID = -6003538455202187956L;
 
   /** 缓存池 */
-  private final Map<K, V> weakMapCache;
+  private final Map<K, V> simpleMapCache;
 
   /** 读写锁 */
   private final ReentrantReadWriteLock cacheLock = new ReentrantReadWriteLock();
@@ -25,11 +25,11 @@ public class WeakMapCache<K, V> implements java.io.Serializable {
   private final ReentrantReadWriteLock.WriteLock writeLock = cacheLock.writeLock();
 
   public WeakMapCache() {
-    weakMapCache = new WeakHashMap<>();
+    simpleMapCache = new WeakHashMap<>();
   }
 
   public WeakMapCache(Map<K, V> weakMapCache) {
-    this.weakMapCache = weakMapCache;
+    this.simpleMapCache = weakMapCache;
   }
 
   /**
@@ -44,7 +44,7 @@ public class WeakMapCache<K, V> implements java.io.Serializable {
     V value;
     readLock.lock();
     try {
-      value = weakMapCache.get(key);
+      value = simpleMapCache.get(key);
     } finally {
       readLock.unlock();
     }
@@ -62,7 +62,7 @@ public class WeakMapCache<K, V> implements java.io.Serializable {
   public V put(K key, V value) {
     writeLock.lock();
     try {
-      weakMapCache.put(key, value);
+      simpleMapCache.put(key, value);
     } finally {
       writeLock.unlock();
     }
@@ -80,7 +80,7 @@ public class WeakMapCache<K, V> implements java.io.Serializable {
   public V remove(K key) {
     writeLock.lock();
     try {
-      return weakMapCache.remove(key);
+      return simpleMapCache.remove(key);
     } finally {
       writeLock.unlock();
     }
@@ -96,7 +96,7 @@ public class WeakMapCache<K, V> implements java.io.Serializable {
   public void empty() {
     writeLock.lock();
     try {
-      weakMapCache.clear();
+      simpleMapCache.clear();
     } finally {
       writeLock.unlock();
     }

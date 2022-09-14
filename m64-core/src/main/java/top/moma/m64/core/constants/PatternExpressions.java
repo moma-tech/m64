@@ -13,6 +13,9 @@ import java.util.regex.Pattern;
  * @version 1.0 Created by ivan at 11/23/20.
  */
 public class PatternExpressions {
+
+  private PatternExpressions() {}
+
   /** 英文字母 、数字和下划线 */
   public static final Pattern GENERAL = Pattern.compile("^\\w+$");
   /** 数字 */

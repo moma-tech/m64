@@ -9,6 +9,9 @@ package top.moma.m64.core.constants;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class IoConstants {
+
+  private IoConstants() {}
+
   /** 默认缓存大小 8192 */
   public static final int DEFAULT_BUFFER_SIZE = 2 << 12;
   /** 默认中等缓存大小 16384 */
