@@ -42,10 +42,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.30</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.12</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit -->
@@ -65,8 +68,9 @@
         <dependency>
             <groupId>org.jboss.xnio</groupId>
             <artifactId>xnio-nio</artifactId>
-            <version>3.8.4.Final</version>
+            <version>3.8.7.Final</version>
         </dependency>
+
     </dependencies>
     <build>
         <!-- 打包后的启动jar名称 -->
@@ -147,7 +151,8 @@
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
-                            <includeScope>compile</includeScope>
+                            <excludeScope>provided</excludeScope>
+                            <excludeScope>test</excludeScope>
                         </configuration>
                     </execution>
                 </executions>
