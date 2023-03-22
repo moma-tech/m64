@@ -1,10 +1,15 @@
 package top.moma.m64.core.helper.io;
 
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import top.moma.m64.core.constants.IoConstants;
 import top.moma.m64.core.exceptions.M64Exception;
 import top.moma.m64.core.helper.AssertHelper;
-
-import java.io.*;
 
 /**
  * IoHelper
@@ -123,5 +128,21 @@ public class IoHelper {
         // 静默关闭
       }
     }
+  }
+
+  /**
+   * description toString
+   *
+   * @param input input
+   * @param charset charset
+   * @return java.lang.String
+   * @author Created by ivan
+   * @since 2023/3/22 14:11
+   */
+  public static String toString(final InputStream input, final Charset charset)
+      throws UnsupportedEncodingException {
+    ByteArrayOutputStream result = new ByteArrayOutputStream();
+    copy(input, result);
+    return result.toString(charset.name());
   }
 }

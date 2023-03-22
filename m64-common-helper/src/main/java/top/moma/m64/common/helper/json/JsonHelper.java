@@ -5,7 +5,12 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -15,18 +20,17 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import top.moma.m64.core.constants.DateTimePatterns;
-import top.moma.m64.core.constants.StringConstants;
-import top.moma.m64.core.constants.enumeration.JsonNamingStrategyEnum;
-import top.moma.m64.core.exceptions.M64Exception;
-import top.moma.m64.core.helper.ObjectHelper;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import top.moma.m64.core.constants.DateTimePatterns;
+import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.constants.enumeration.JsonNamingStrategyEnum;
+import top.moma.m64.core.exceptions.M64Exception;
+import top.moma.m64.core.helper.ObjectHelper;
 
 /**
  * JsonHelper
@@ -82,7 +86,7 @@ public class JsonHelper {
    * @author Created by ivan at 下午4:26 2020/1/10.
    */
   public static void setLowCamelCaseMapper() {
-    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
   }
 
   /**
@@ -93,7 +97,7 @@ public class JsonHelper {
    * @author Created by ivan at 下午4:29 2020/1/10.
    */
   public static void setSnakeCaseMapper() {
-    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
   }
 
   /**
@@ -114,12 +118,11 @@ public class JsonHelper {
    */
   static ObjectMapper configureObjectMapper(ObjectMapper objectMapper) {
     // Set Naming Strategy
-    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
     // Set Feature
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-    objectMapper.enable(MapperFeature.PROPAGATE_TRANSIENT_MARKER);
     objectMapper.enable(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature());
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     // Handle Java Time & JSR310
@@ -172,8 +175,8 @@ public class JsonHelper {
    *     <p>Handle NUll to ""
    * @param nullString :
    */
-  public static void registerNullSerializer(String nullString) {
-    getObjectMapper()
+  public static void registerNullSerializer(String nullString, ObjectMapper objectMapper) {
+    objectMapper
         .getSerializerProvider()
         .setNullValueSerializer(
             new JsonSerializer<Object>() {
@@ -197,11 +200,11 @@ public class JsonHelper {
    *
    * @author Created by ivan at 下午2:53 2020/1/10.
    */
-  public static void registerLongSerializer() {
+  public static void registerLongSerializer(ObjectMapper objectMapper) {
     SimpleModule long2StringModule = new SimpleModule();
     // Handle long To String
     long2StringModule.addSerializer(Long.class, ToStringSerializer.instance);
-    getObjectMapper().registerModule(long2StringModule);
+    objectMapper.registerModule(long2StringModule);
   }
 
   /**
