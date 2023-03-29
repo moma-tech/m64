@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>m64</artifactId>
-        <groupId>top.moma</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>m64-parent</artifactId>
+    <groupId>top.mmtech</groupId>
+    <version>1.0.0.RELEASE</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>m64-core</artifactId>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>M64 is a simple java tool suits, including common constants, tool functions and so
+    on, to simplify and accelerate program development, and avoid duplication of work
+  </description>
+  <url>https://github.com/moma-tech/m64</url>
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Ivan Dong</name>
+      <email>ivandjp@gmail.com</email>
+      <organization>moma-tech</organization>
+      <organizationUrl>http://www.mmtech.top</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git@github.com:moma-tech/m64.git</connection>
+    <developerConnection>scm:git@github.com:moma-tech/m64.git</developerConnection>
+    <url>https://github.com/moma-tech/m64.git</url>
+  </scm>
+  <dependencies>
 
-    <artifactId>m64-core</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-
-    <dependencies>
-
-    </dependencies>
+  </dependencies>
 </project>

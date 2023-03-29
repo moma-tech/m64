@@ -7,10 +7,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
-import lombok.extern.slf4j.Slf4j;
 import top.moma.m64.core.exceptions.M64Exception;
 
-@Slf4j
 public class IpHelper {
 
   private IpHelper() {}
