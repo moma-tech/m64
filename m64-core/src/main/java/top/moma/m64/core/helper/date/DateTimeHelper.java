@@ -1,12 +1,11 @@
 package top.moma.m64.core.helper.date;
 
-import top.moma.m64.core.constants.DateTimePatterns;
-import top.moma.m64.core.constants.PatternExpressions;
-import top.moma.m64.core.constants.StringConstants;
-import top.moma.m64.core.helper.ObjectHelper;
-import top.moma.m64.core.helper.StringHelper;
-
-import java.time.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
@@ -15,6 +14,11 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Objects;
 import java.util.regex.Pattern;
+import top.moma.m64.core.constants.DateTimePatterns;
+import top.moma.m64.core.constants.PatternExpressions;
+import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.helper.ObjectHelper;
+import top.moma.m64.core.helper.StringHelper;
 
 /**
  * DateTimeHelper
@@ -296,14 +300,18 @@ public class DateTimeHelper {
   }
 
   /**
-   * afterSpecifiedTimeGap
+   * description afterSpecifiedTimeGap
    *
    * <p>build LDT from given LDT plus gap time
    *
    * <p>default timeUnit is SECOND
    *
-   * @author Created by ivan at 下午4:10 2020/1/13.
+   * @param base base
+   * @param gap gap
+   * @param timeUnit timeUnit
    * @return java.time.LocalDateTime
+   * @author Created by ivan
+   * @since 2023/3/29 17:52
    */
   public static LocalDateTime afterSpecifiedTimeGap(
       LocalDateTime base, long gap, ChronoUnit timeUnit) {
@@ -322,8 +330,12 @@ public class DateTimeHelper {
    *
    * <p>build LDT from timestamp plus gap time
    *
-   * @author Created by ivan at 下午4:12 2020/1/13.
+   * @param baseTs baseTs
+   * @param gap gap
+   * @param timeUnit timeUnit
    * @return java.time.LocalDateTime
+   * @author Created by ivan
+   * @since 2023/3/29 17:53
    */
   public static LocalDateTime afterSpecifiedTimeGap(long baseTs, long gap, ChronoUnit timeUnit) {
     LocalDateTime base = of(baseTs);
@@ -335,8 +347,12 @@ public class DateTimeHelper {
    *
    * <p>check if given LD is after compare LD in gap Days
    *
-   * @author Created by ivan at 下午4:13 2020/1/13.
+   * @param given given
+   * @param compare compare
+   * @param gap gap
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:53
    */
   public static boolean isAfterComparedDayGaps(LocalDate given, LocalDate compare, long gap) {
     LocalDate localDate = compare.minusDays(gap);
@@ -348,8 +364,12 @@ public class DateTimeHelper {
    *
    * <p>check if given LD is gap days after compare LD
    *
-   * @author Created by ivan at 下午4:14 2020/1/13.
+   * @param given given
+   * @param compare compare
+   * @param gap gap
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:53
    */
   public static boolean isEqualComparedDayGaps(LocalDate given, LocalDate compare, long gap) {
     LocalDate localDate = compare.minusDays(gap);
@@ -359,10 +379,13 @@ public class DateTimeHelper {
   /**
    * isBeforeSecondLDt
    *
-   * <p>check if first LDT is before second LDT
+   * <p>check if first LDT is before second LDT *
    *
-   * @author Created by ivan at 下午4:15 2020/1/13.
+   * @param firstTime firstTime
+   * @param secondTime secondTime
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:54
    */
   public static boolean isBeforeSecondLDt(LocalDateTime firstTime, LocalDateTime secondTime) {
     Duration duration = Duration.between(firstTime, secondTime);
@@ -377,12 +400,14 @@ public class DateTimeHelper {
    *
    * <p>2020-01-13T00:00
    *
-   * @author Created by ivan at 下午4:15 2020/1/13.
    * @return java.time.LocalDateTime
+   * @author Created by ivan
+   * @since 2023/3/29 17:54
    */
   public static LocalDateTime getTodayStartTime() {
     return LocalDateTime.now().with(LocalTime.MIN);
   }
+
   /**
    * getTodayEndTime
    *
@@ -390,8 +415,9 @@ public class DateTimeHelper {
    *
    * <p>2020-01-13T23:59:59.9999s99999
    *
-   * @author Created by ivan at 下午4:17 2020/1/13.
    * @return java.time.LocalDateTime
+   * @author Created by ivan
+   * @since 2023/3/29 17:54
    */
   public static LocalDateTime getTodayEndTime() {
     return LocalDateTime.now().with(LocalTime.MAX);
@@ -402,8 +428,9 @@ public class DateTimeHelper {
    *
    * <p>get current hour in 24
    *
-   * @author Created by ivan at 下午4:17 2020/1/13.
    * @return java.lang.String
+   * @author Created by ivan
+   * @since 2023/3/29 17:55
    */
   public static String getCurrentHour24Format() {
     return getGivenHour24Format(LocalDateTime.now());
@@ -414,8 +441,10 @@ public class DateTimeHelper {
    *
    * <p>get hour in 24 of given LDT
    *
-   * @author Created by ivan at 下午4:18 2020/1/13.
+   * @param localDateTime localDateTime
    * @return java.lang.String
+   * @author Created by ivan
+   * @since 2023/3/29 17:56
    */
   public static String getGivenHour24Format(LocalDateTime localDateTime) {
     return "" + localDateTime.getHour();
@@ -461,11 +490,13 @@ public class DateTimeHelper {
   }
 
   /**
-   * @author Created by Ivan at 2020/11/16.
-   *     <p>Format LDT to String
-   * @param localDateTime : given ldt
-   * @param datePattern : given pattern
+   * toString
+   *
+   * @param localDateTime localDateTime
+   * @param datePattern datePattern
    * @return java.lang.String
+   * @author Created by ivan
+   * @since 2023/3/29 17:55
    */
   public static String toString(LocalDateTime localDateTime, String datePattern) {
     return localDateTime.format(DateTimeFormatter.ofPattern(datePattern));
@@ -508,6 +539,14 @@ public class DateTimeHelper {
         .toEpochMilli();
   }
 
+  /**
+   * getDayOfWeek
+   *
+   * @param date date
+   * @return int
+   * @author Created by ivan
+   * @since 2023/3/29 17:55
+   */
   public static int getDayOfWeek(CharSequence date) {
     LocalDateTime localDateTime = parse(date, getDateFormat(date.toString()));
     return ObjectHelper.isEmpty(localDateTime) ? -1 : localDateTime.getDayOfWeek().getValue();

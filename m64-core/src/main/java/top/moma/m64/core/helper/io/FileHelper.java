@@ -1,8 +1,5 @@
 package top.moma.m64.core.helper.io;
 
-import top.moma.m64.core.exceptions.M64Exception;
-import top.moma.m64.core.helper.io.file.FileOperator;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import top.moma.m64.core.exceptions.M64Exception;
+import top.moma.m64.core.helper.io.file.FileOperator;
 
 /**
  * FileHelper
@@ -134,8 +133,10 @@ public class FileHelper {
    *
    * <p>By String path
    *
-   * @author Created by ivan at 下午3:55 2020/8/19.
+   * @param destFile destFile
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:57
    */
   public static boolean deleteFile(String destFile) {
     return deleteFile(new File(destFile));
@@ -144,10 +145,10 @@ public class FileHelper {
   /**
    * deleteFile
    *
-   * <p>By File
-   *
-   * @author Created by ivan at 下午3:55 2020/8/19.
+   * @param destFile destFile
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:57
    */
   public static boolean deleteFile(File destFile) {
     if (destFile == null) {
@@ -165,8 +166,11 @@ public class FileHelper {
    *
    * <p>By Path
    *
-   * @author Created by ivan at 下午3:55 2020/8/19.
+   * @param destFilePath destFilePath
    * @return boolean
+   * @throws IOException File io Exception
+   * @author Created by ivan
+   * @since 2023/3/29 17:57
    */
   public static boolean deleteFile(Path destFilePath) throws IOException {
     if (destFilePath == null) {

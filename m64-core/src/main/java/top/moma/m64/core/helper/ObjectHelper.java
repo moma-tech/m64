@@ -20,13 +20,25 @@ public class ObjectHelper {
   /**
    * if object is null, return default
    *
-   * @author Created by ivan on 5:30 PM 11/20/20.
+   * @param object object
+   * @param defaultValue defaultValue
+   * @param <T> object Type
    * @return T
+   * @author Created by ivan
+   * @since 2023/3/29 17:32
    */
   public static <T> T defaultIfNull(final T object, final T defaultValue) {
     return isEmpty(object) ? object : defaultValue;
   }
 
+  /**
+   * isEmpty
+   *
+   * @param array array
+   * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:32
+   */
   public static boolean isEmpty(Object[] array) {
     return array == null || array.length == 0;
   }
@@ -34,9 +46,10 @@ public class ObjectHelper {
   /**
    * If Object null or content is empty
    *
-   * @author Created by ivan on 1:39 PM 11/23/20.
-   * @param obj : Object
+   * @param obj obj
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:33
    */
   public static boolean isEmpty(Object obj) {
     if (obj == null) {
@@ -57,9 +70,10 @@ public class ObjectHelper {
   /**
    * If Object not null and content is not empty
    *
-   * @author Created by ivan on 1:39 PM 11/23/20.
-   * @param obj : Object
+   * @param obj obj
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:33
    */
   public static boolean isNotEmpty(Object obj) {
     return !isEmpty(obj);
@@ -68,9 +82,10 @@ public class ObjectHelper {
   /**
    * Cast Object to String,return "null" or ""
    *
-   * @author Created by ivan on 11:12 AM 11/25/20.
-   * @param object : object
+   * @param object object
    * @return java.lang.String
+   * @author Created by ivan
+   * @since 2023/3/29 17:33
    */
   public static String toString(Object object) {
     return StringHelper.nullSafeToString(object);
@@ -79,11 +94,12 @@ public class ObjectHelper {
   /**
    * System Array Copy
    *
-   * @author Created by ivan on 2:10 PM 11/25/20.
-   * @param src : source object
-   * @param dest : destination object
-   * @param length : request length
-   * @return java.lang.Object SYSTEM
+   * @param src src
+   * @param dest dest
+   * @param length length
+   * @return java.lang.Object
+   * @author Created by ivan
+   * @since 2023/3/29 17:34
    */
   public static Object arrayCopy(Object src, Object dest, int length) {
     return arrayCopy(src, dest, 0, 0, length);
@@ -92,13 +108,14 @@ public class ObjectHelper {
   /**
    * System Array Copy, different length
    *
-   * @author Created by ivan on 5:41 PM 11/30/20.
-   * @param src : source object
-   * @param dest : destination object
-   * @param srcPos : source start position
-   * @param desPos : destination start position
-   * @param length : wak length
+   * @param src src
+   * @param dest dest
+   * @param srcPos srcPos
+   * @param desPos desPos
+   * @param length length
    * @return java.lang.Object
+   * @author Created by ivan
+   * @since 2023/3/29 17:34
    */
   public static Object arrayCopy(Object src, Object dest, int srcPos, int desPos, int length) {
     System.arraycopy(src, srcPos, dest, desPos, length);
@@ -109,9 +126,10 @@ public class ObjectHelper {
    * Convert the given array (which may be a primitive array) to an * object array (if necessary of
    * primitive wrapper objects).
    *
-   * @author Created by ivan on 2:28 PM 11/30/20.
-   * @param source : given source
+   * @param source source
    * @return java.lang.Object[]
+   * @author Created by ivan
+   * @since 2023/3/29 17:34
    */
   public static Object[] toObjectArray(Object source) {
     if (source instanceof Object[]) {

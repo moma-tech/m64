@@ -1,10 +1,20 @@
 package top.moma.m64.core.helper;
 
-import top.moma.m64.core.constants.M64Constants;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import top.moma.m64.core.constants.M64Constants;
 
 /**
  * CollectionHelper
@@ -21,17 +31,21 @@ public class CollectionHelper {
   /**
    * Check if Collection isEmpty
    *
-   * @author Created by ivan on 2:49 PM 11/20/20.
+   * @param coll coll
    * @return boolean
+   * @author Created by ivan
+   * @since 2023/3/29 17:27
    */
   public static boolean isEmpty(Collection<?> coll) {
     return (Objects.isNull(coll) || coll.isEmpty());
   }
+
   /**
    * Check if not empty
    *
-   * @author Created by ivan on 2:50 PM 11/20/20.
+   * @param coll coll
    * @return boolean
+   * @author Created by ivan on 2:50 PM 11/20/20.
    */
   public static boolean isNotEmpty(Collection<?> coll) {
     return !CollectionHelper.isEmpty(coll);
@@ -40,8 +54,11 @@ public class CollectionHelper {
   /**
    * Create HashMap with init size
    *
-   * @author Created by ivan on 2:55 PM 11/20/20.
-   * @return java.util.HashMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:28
    */
   public static <K, V> Map<K, V> newHashMap() {
     return new HashMap<>(M64Constants.INIT_MAP_SIZE);
@@ -50,8 +67,12 @@ public class CollectionHelper {
   /**
    * Create HashMap with given size
    *
-   * @author Created by ivan on 2:57 PM 11/20/20.
-   * @return java.util.HashMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @param initialCapacity initialCapacity
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:29
    */
   public static <K, V> Map<K, V> newHashMap(int initialCapacity) {
     return new HashMap<>(initialCapacity);
@@ -60,8 +81,12 @@ public class CollectionHelper {
   /**
    * Create HashMap with given map
    *
-   * @author Created by ivan on 2:57 PM 11/20/20.
-   * @return java.util.HashMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @param map map
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:29
    */
   public static <K, V> Map<K, V> newHashMap(Map<? extends K, ? extends V> map) {
     return new HashMap<>(map);
@@ -70,8 +95,11 @@ public class CollectionHelper {
   /**
    * Create Empty LinkedHashMap
    *
-   * @author Created by ivan on 2:58 PM 11/20/20.
-   * @return java.util.LinkedHashMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:29
    */
   public static <K, V> Map<K, V> newLinkedHashMap() {
     return new LinkedHashMap<>(M64Constants.INIT_MAP_SIZE);
@@ -80,18 +108,25 @@ public class CollectionHelper {
   /**
    * Create LinkedHashMap with given map
    *
-   * @author Created by ivan on 2:59 PM 11/20/20.
-   * @return java.util.LinkedHashMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @param map map
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:30
    */
   public static <K, V> Map<K, V> newLinkedHashMap(Map<? extends K, ? extends V> map) {
     return new LinkedHashMap<>(map);
   }
 
   /**
-   * Create Empty Concurrent Map
+   * Create Empty Concurrent Map newConcurrentMap
    *
-   * @author Created by ivan on 3:00 PM 11/20/20.
-   * @return java.util.concurrent.ConcurrentMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @return java.util.concurrent.ConcurrentMap
+   * @author Created by ivan
+   * @since 2023/3/29 17:30
    */
   public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
     return new ConcurrentHashMap<>(M64Constants.INIT_MAP_SIZE);
@@ -100,8 +135,11 @@ public class CollectionHelper {
   /**
    * Create Empty Tree Map
    *
-   * @author Created by ivan on 3:00 PM 11/20/20.
-   * @return java.util.TreeMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:30
    */
   @SuppressWarnings("rawtypes")
   public static <K extends Comparable, V> Map<K, V> newTreeMap() {
@@ -111,8 +149,12 @@ public class CollectionHelper {
   /**
    * Create Tree Map with given sorted map
    *
-   * @author Created by ivan on 3:00 PM 11/20/20.
-   * @return java.util.TreeMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @param map map
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:30
    */
   public static <K, V> Map<K, V> newTreeMap(SortedMap<K, ? extends V> map) {
     return new TreeMap<>(map);
@@ -121,8 +163,13 @@ public class CollectionHelper {
   /**
    * Create Empty Tree Map with given Comparator
    *
-   * @author Created by ivan on 3:01 PM 11/20/20.
-   * @return java.util.TreeMap<K,V>
+   * @param <C> compare Type
+   * @param <K> key Type
+   * @param <V> value Type
+   * @param comparator comparator
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:31
    */
   public static <C, K extends C, V> Map<K, V> newTreeMap(Comparator<C> comparator) {
     return new TreeMap<>(comparator);
@@ -131,8 +178,12 @@ public class CollectionHelper {
   /**
    * Create Empty Enum Map with give Key Type
    *
-   * @author Created by ivan on 3:01 PM 11/20/20.
-   * @return java.util.EnumMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @param type type
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:31
    */
   public static <K extends Enum<K>, V> Map<K, V> newEnumMap(Class<K> type) {
     return new EnumMap<>((type));
@@ -141,8 +192,12 @@ public class CollectionHelper {
   /**
    * Create Enum Map with given Map
    *
-   * @author Created by ivan on 3:02 PM 11/20/20.
-   * @return java.util.EnumMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @param map map
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:31
    */
   public static <K extends Enum<K>, V> Map<K, V> newEnumMap(Map<K, ? extends V> map) {
     return new EnumMap<>(map);
@@ -151,8 +206,11 @@ public class CollectionHelper {
   /**
    * Create Empty Identity Hash Map
    *
-   * @author Created by ivan on 3:03 PM 11/20/20.
-   * @return java.util.IdentityHashMap<K,V>
+   * @param <K> key Type
+   * @param <V> value Type
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:31
    */
   public static <K, V> Map<K, V> newIdentityHashMap() {
     return new IdentityHashMap<>();
@@ -161,9 +219,10 @@ public class CollectionHelper {
   /**
    * Convert Source to Object Array
    *
-   * @author Created by ivan on 5:33 PM 11/30/20.
-   * @param source : source Object
+   * @param source source
    * @return java.util.List
+   * @author Created by ivan
+   * @since 2023/3/29 17:32
    */
   public static List<Object> arrayToList(Object source) {
     return Arrays.asList(ObjectHelper.toObjectArray(source));

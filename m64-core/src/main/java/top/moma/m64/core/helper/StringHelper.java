@@ -1,11 +1,17 @@
 package top.moma.m64.core.helper;
 
-import top.moma.m64.core.constants.StringConstants;
-import top.moma.m64.core.helper.text.StringFormatter;
-
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Set;
+import java.util.StringJoiner;
+import java.util.StringTokenizer;
+import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.helper.text.StringFormatter;
 
 /**
  * StringHelper
@@ -600,10 +606,12 @@ public class StringHelper {
   /**
    * cast Object to toString, or default value, consider charset for byte
    *
-   * @author Created by ivan on 10:18 AM 11/25/20.
-   * @param object : given Object
-   * @param defaultValue : default Value
+   * @param object object
+   * @param defaultValue defaultValue
+   * @param charset charset
    * @return java.lang.String
+   * @author Created by ivan
+   * @since 2023/3/29 17:35
    */
   public static String toString(Object object, String defaultValue, String charset) {
     if (null == object) {

@@ -131,13 +131,14 @@ public class IoHelper {
   }
 
   /**
-   * description toString
+   * toString
    *
    * @param input input
    * @param charset charset
    * @return java.lang.String
+   * @throws UnsupportedEncodingException 不支持的编码
    * @author Created by ivan
-   * @since 2023/3/22 14:11
+   * @since 2023/3/29 17:58
    */
   public static String toString(final InputStream input, final Charset charset)
       throws UnsupportedEncodingException {

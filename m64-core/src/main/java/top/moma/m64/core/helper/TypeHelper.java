@@ -1,12 +1,11 @@
 package top.moma.m64.core.helper;
 
-import top.moma.m64.core.constants.DigitalConstants;
-import top.moma.m64.core.constants.StringConstants;
-import top.moma.m64.core.exceptions.M64Exception;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.NumberFormat;
+import top.moma.m64.core.constants.DigitalConstants;
+import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.exceptions.M64Exception;
 
 /**
  * TypeHelper
@@ -486,6 +485,7 @@ public class TypeHelper {
    *
    * @param clazz Enum的Class
    * @param value 值
+   * @param <E> Enum Type
    * @param defaultValue 默认值
    * @return Enum
    */
@@ -513,6 +513,7 @@ public class TypeHelper {
    * 转换为Enum对象<br>
    * 如果给定的值为空，或者转换失败，返回默认值<code>null</code><br>
    *
+   * @param <E> Enum Type
    * @param clazz Enum的Class
    * @param value 值
    * @return Enum
@@ -616,7 +617,10 @@ public class TypeHelper {
   /**
    * 十六进制串转化为byte数组
    *
-   * @return the array of byte
+   * @param hex hex
+   * @return byte[]
+   * @author Created by ivan
+   * @since 2023/3/29 17:36
    */
   public static byte[] hexToByte(String hex) throws IllegalArgumentException {
     if (hex.length() % 2 != 0) {
@@ -730,6 +734,7 @@ public class TypeHelper {
   /**
    * cast Source to T
    *
+   * @param <T> Object Type
    * @author Created by ivan on 5:50 PM 2/5/21.
    * @param source : source object
    * @return T: return Object

@@ -33,12 +33,12 @@ public class WeakMapCache<K, V> {
   }
 
   /**
-   * get
+   * get value
    *
-   * <p>get value
-   *
-   * @author Created by ivan at 下午3:12 2020/1/20.
+   * @param key key
    * @return V
+   * @author Created by ivan
+   * @since 2023/3/29 17:50
    */
   public V get(K key) {
     V value;
@@ -52,12 +52,13 @@ public class WeakMapCache<K, V> {
   }
 
   /**
-   * put
+   * put value
    *
-   * <p>put value
-   *
-   * @author Created by ivan at 下午3:16 2020/1/20.
+   * @param key key
+   * @param value value
    * @return V
+   * @author Created by ivan
+   * @since 2023/3/29 17:51
    */
   public V put(K key, V value) {
     writeLock.lock();
@@ -70,12 +71,12 @@ public class WeakMapCache<K, V> {
   }
 
   /**
-   * remove
+   * remove value
    *
-   * <p>remove value
-   *
-   * @author Created by ivan at 下午3:16 2020/1/20.
+   * @param key key
    * @return V
+   * @author Created by ivan
+   * @since 2023/3/29 17:52
    */
   public V remove(K key) {
     writeLock.lock();
@@ -87,11 +88,10 @@ public class WeakMapCache<K, V> {
   }
 
   /**
-   * empty
+   * empty/clear cache
    *
-   * <p>empty/clear cache
-   *
-   * @author Created by ivan at 下午3:17 2020/1/20.
+   * @author Created by ivan
+   * @since 2023/3/29 17:52
    */
   public void empty() {
     writeLock.lock();

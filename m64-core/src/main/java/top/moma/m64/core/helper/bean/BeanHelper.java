@@ -1,19 +1,24 @@
 package top.moma.m64.core.helper.bean;
 
-import lombok.Data;
-import top.moma.m64.core.constants.StringConstants;
-import top.moma.m64.core.helper.ClassHelper;
-import top.moma.m64.core.helper.CollectionHelper;
-import top.moma.m64.core.helper.ObjectHelper;
-import top.moma.m64.core.helper.StringHelper;
-
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.helper.ClassHelper;
+import top.moma.m64.core.helper.CollectionHelper;
+import top.moma.m64.core.helper.ObjectHelper;
+import top.moma.m64.core.helper.StringHelper;
 
 /**
  * BeanHelper
@@ -26,21 +31,27 @@ public class BeanHelper {
   private BeanHelper() {}
 
   /**
-   * @param bean :
-   * @return java.util.Map<java.lang.String , java.lang.Object>
-   * @author Created by ivan on 3:26 PM 12/24/18.
-   *     <p>//Single Bean to Single Map
+   * Single Bean to Single Map
+   *
+   * @param bean bean
+   * @param <T> Object Type
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:37
    */
   public static <T> Map<String, Object> beanToMap(T bean) {
     return beanToMap(bean, false);
   }
 
   /**
-   * @param bean : Source Bean
-   * @param includeNull: if include null value
-   * @return java.util.Map<java.lang.String , java.lang.Object>
-   * @author Created by ivan on 3:26 PM 12/24/18.
-   *     <p>//Single Bean to Single Map
+   * Single Bean to Single Map
+   *
+   * @param bean bean
+   * @param <T> Object Type
+   * @param includeNull includeNull
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:37
    */
   public static <T> Map<String, Object> beanToMap(T bean, boolean includeNull) {
     Map<String, Object> map = Collections.emptyMap();
@@ -71,11 +82,13 @@ public class BeanHelper {
   }
 
   /**
-   * @param bean :
-   * @return java.util.Map<java.lang.String , java.lang.String>
-   * @author Created by ivan on 3:04 PM 12/27/18.
-   *     <p>bean To <String,String> Map
-   *     <p>ignor null value
+   * bean To Map ignor null value
+   *
+   * @param bean bean
+   * @param <T> Object Type
+   * @return java.util.Map
+   * @author Created by ivan
+   * @since 2023/3/29 17:37
    */
   public static <T> Map<String, String> beanToStringMap(T bean) {
     return beanToStringMap(bean, false);
@@ -85,8 +98,9 @@ public class BeanHelper {
    * description beanToStringMap
    *
    * @param bean bean
+   * @param <T> Object Type
    * @param includeNull includeNull
-   * @return java.util.Map<java.lang.String,java.lang.String>
+   * @return java.util.Map
    * @author Created by ivan
    * @since 2022/9/13 18:27
    */
@@ -117,12 +131,13 @@ public class BeanHelper {
   }
 
   /**
-   * *
+   * Bean List to Map List
    *
-   * @param beanList :
-   * @return java.util.List<java.util.Map < java.lang.String , java.lang.Object>>
-   * @author Created by ivan on 3:26 PM 12/24/18.
-   *     <p>//Bean List to Map List
+   * @param beanList beanList
+   * @param <T> Object Type
+   * @return java.util.List
+   * @author Created by ivan
+   * @since 2023/3/29 17:38
    */
   public static <T> List<Map<String, Object>> beansToMaps(List<T> beanList) {
     List<Map<String, Object>> mapList = Collections.emptyList();
@@ -140,11 +155,14 @@ public class BeanHelper {
   }
 
   /**
-   * @param mapList :
-   * @param beanClass :
-   * @return java.util.List<T>
-   * @author Created by ivan on 3:27 PM 12/24/18.
-   *     <p>//Map List to Bean List
+   * Map List to Bean List
+   *
+   * @param mapList mapList
+   * @param beanClass beanClass
+   * @param <T> Object Type
+   * @return java.util.List
+   * @author Created by ivan
+   * @since 2023/3/29 17:38
    */
   public static <T> List<T> mapsToBeans(List<Map<String, Object>> mapList, Class<T> beanClass) {
     List<T> beanList = Collections.emptyList();
@@ -162,11 +180,14 @@ public class BeanHelper {
   }
 
   /**
-   * @param map :
-   * @param beanClass :
+   * Single Map to Bean
+   *
+   * @param map map
+   * @param beanClass beanClass
+   * @param <T> Object Type
    * @return T
-   * @author Created by ivan on 3:28 PM 12/24/18.
-   *     <p>//Single Map to Bean
+   * @author Created by ivan
+   * @since 2023/3/29 17:38
    */
   public static <T> T mapToBean(Map<String, Object> map, Class<T> beanClass) {
     T bean = ClassHelper.newInstance(beanClass);
@@ -191,11 +212,12 @@ public class BeanHelper {
   }
 
   /**
-   * Converter Bean to key=value&key=value
+   * Converter Bean to key=value AMP key=value
    *
-   * @author Created by Ivan at 2021/4/7.
-   * @return java.lang.String : return char sequence
-   * @param bean : input bean
+   * @param bean bean
+   * @return java.lang.String
+   * @author Created by ivan
+   * @since 2023/3/29 17:38
    */
   public static String beanToStringParis(Object bean) {
     if (ObjectHelper.isNotEmpty(bean)) {
@@ -231,12 +253,5 @@ public class BeanHelper {
       return stringBuilder.toString();
     }
     return StringConstants.EMPTY;
-  }
-
-  @Data
-  public static class InnerTest {
-    private String name;
-    private Integer type;
-    private List<String> holds;
   }
 }
