@@ -25,7 +25,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import top.moma.m64.core.constants.DateTimePatterns;
 import top.moma.m64.core.constants.StringConstants;
 import top.moma.m64.core.constants.enumeration.JsonNamingStrategyEnum;
@@ -60,7 +59,7 @@ public class JsonHelper {
    * @return com.fasterxml.jackson.databind.ObjectMapper
    */
   public static ObjectMapper getObjectMapper() {
-    return Objects.isNull(objectMapper) ? getObjectMapper(null) : objectMapper;
+    return ObjectHelper.defaultIfNull(objectMapper, getObjectMapper(null));
   }
 
   /**
@@ -72,31 +71,10 @@ public class JsonHelper {
    * @since 2023/3/29 18:03
    */
   public static ObjectMapper getObjectMapper(ObjectMapper thirdMapper) {
-    if (Objects.isNull(thirdMapper)) {
+    if (ObjectHelper.isEmpty(thirdMapper)) {
       return getObjectMapper(new ObjectMapper());
     }
     return configureObjectMapper(thirdMapper);
-  }
-
-  /**
-   * setLowCamelCaseMapper
-   *
-   * @author Created by ivan
-   * @since 2023/3/29 18:03
-   */
-  public static void setLowCamelCaseMapper() {
-    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
-  }
-
-  /**
-   * setSnakeCaseMapper
-   *
-   * <p>Set JacksonHelper as SnakeCase
-   *
-   * @author Created by ivan at 下午4:29 2020/1/10.
-   */
-  public static void setSnakeCaseMapper() {
-    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
   }
 
   /**
@@ -139,7 +117,6 @@ public class JsonHelper {
   public static void registerJavaTime(ObjectMapper objectMapper) {
     // Handle Java Time
     objectMapper.registerModule(new JavaTimeModule());
-
     // Handle JSR310 Time
     SimpleModule jsr310Module = new SimpleModule();
     jsr310Module.addSerializer(
@@ -181,7 +158,7 @@ public class JsonHelper {
     objectMapper
         .getSerializerProvider()
         .setNullValueSerializer(
-            new JsonSerializer<Object>() {
+            new JsonSerializer<>() {
               @Override
               public void serialize(
                   Object paramT,
@@ -193,6 +170,27 @@ public class JsonHelper {
                     ObjectHelper.defaultIfNull(nullString, StringConstants.EMPTY));
               }
             });
+  }
+
+  /**
+   * setLowCamelCaseMapper
+   *
+   * @author Created by ivan
+   * @since 2023/3/29 18:03
+   */
+  public static void setLowCamelCaseMapper(ObjectMapper objectMapper) {
+    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
+  }
+
+  /**
+   * setSnakeCaseMapper
+   *
+   * <p>Set JacksonHelper as SnakeCase
+   *
+   * @author Created by ivan at 下午4:29 2020/1/10.
+   */
+  public static void setSnakeCaseMapper(ObjectMapper objectMapper) {
+    objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
   }
 
   /**
@@ -223,6 +221,9 @@ public class JsonHelper {
    */
   public static Object readValue(String jsonString) {
     Object object;
+    if (ObjectHelper.isEmpty(jsonString)) {
+      return null;
+    }
     try {
       object = getObjectMapper().readValue(jsonString, Object.class);
     } catch (Exception ex) {
@@ -244,12 +245,15 @@ public class JsonHelper {
    */
   public static Object readValue(String jsonString, JsonNamingStrategyEnum jsonNameStrategy) {
     Object object = null;
+    if (ObjectHelper.isEmpty(jsonString)) {
+      return null;
+    }
     if (JsonNamingStrategyEnum.LOWER_CAMEL_CASE.equals(jsonNameStrategy)) {
       object = readValue(jsonString);
     } else if (JsonNamingStrategyEnum.SNAKE_CASE.equals(jsonNameStrategy)) {
-      setSnakeCaseMapper();
+      setSnakeCaseMapper(objectMapper);
       object = readValue(jsonString);
-      setLowCamelCaseMapper();
+      setLowCamelCaseMapper(objectMapper);
     }
     return object;
   }
@@ -270,12 +274,15 @@ public class JsonHelper {
   public static <T> T readValue(
       String json, Class<T> clazz, JsonNamingStrategyEnum jsonNameStrategy) {
     T t = null;
+    if (ObjectHelper.isEmpty(json)) {
+      return null;
+    }
     if (JsonNamingStrategyEnum.LOWER_CAMEL_CASE.equals(jsonNameStrategy)) {
       t = readValue(json, clazz);
     } else if (JsonNamingStrategyEnum.SNAKE_CASE.equals(jsonNameStrategy)) {
-      setSnakeCaseMapper();
+      setSnakeCaseMapper(objectMapper);
       t = readValue(json, clazz);
-      setLowCamelCaseMapper();
+      setLowCamelCaseMapper(objectMapper);
     }
     return t;
   }
@@ -294,6 +301,9 @@ public class JsonHelper {
    */
   public static <T> T readValue(String json, Class<T> clazz) {
     T t;
+    if (ObjectHelper.isEmpty(json)) {
+      return null;
+    }
     try {
       t = getObjectMapper().readValue(json, clazz);
     } catch (Exception ex) {
@@ -316,6 +326,9 @@ public class JsonHelper {
    */
   public static <T> T readValue(String json, TypeReference<T> valueTypeRef) {
     T t;
+    if (ObjectHelper.isEmpty(json)) {
+      return null;
+    }
     try {
       t = getObjectMapper().readValue(json, valueTypeRef);
     } catch (Exception ex) {
@@ -340,12 +353,15 @@ public class JsonHelper {
   public static <T> T readValue(
       String json, TypeReference<T> valueTypeRef, JsonNamingStrategyEnum jsonNameStrategy) {
     T t = null;
+    if (ObjectHelper.isEmpty(json)) {
+      return null;
+    }
     if (JsonNamingStrategyEnum.LOWER_CAMEL_CASE.equals(jsonNameStrategy)) {
       t = readValue(json, valueTypeRef);
     } else if (JsonNamingStrategyEnum.SNAKE_CASE.equals(jsonNameStrategy)) {
-      setSnakeCaseMapper();
+      setSnakeCaseMapper(objectMapper);
       t = readValue(json, valueTypeRef);
-      setLowCamelCaseMapper();
+      setLowCamelCaseMapper(objectMapper);
     }
     return t;
   }
@@ -359,7 +375,10 @@ public class JsonHelper {
    * @since 2023/3/29 18:06
    */
   public static String toJson(Object object) {
-    if (Objects.nonNull(object) && CharSequence.class.isAssignableFrom(object.getClass())) {
+    if (ObjectHelper.isEmpty(object)) {
+      return "";
+    }
+    if (CharSequence.class.isAssignableFrom(object.getClass())) {
       return object.toString();
     }
     try {

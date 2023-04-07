@@ -6,62 +6,58 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.3</version>
+    <version>3.0.0</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <modules>
     <module>m64-core</module>
     <module>m64-common-helper</module>
   </modules>
-  <groupId>top.mmtech</groupId>
-  <artifactId>m64-parent</artifactId>
-  <version>1.0.0.RELEASE</version>
+  <groupId>top.moma</groupId>
+  <artifactId>m64</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>m64</name>
   <packaging>pom</packaging>
-  <name>${project.groupId}:${project.artifactId}</name>
-  <description>M64 is a simple java tool suits, including common constants, tool functions and so
-    on, to simplify and accelerate program development, and avoid duplication of work
-  </description>
-  <url>https://github.com/moma-tech/m64</url>
+  <description>home,sweet home</description>
+  <url>https://www.mmtech.top</url>
   <licenses>
     <license>
-      <name>The Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
     </license>
   </licenses>
   <developers>
     <developer>
+      <id>moma_tech</id>
       <name>Ivan Dong</name>
       <email>ivandjp@gmail.com</email>
-      <organization>moma-tech</organization>
-      <organizationUrl>http://www.mmtech.top</organizationUrl>
+      <roles>
+        <role>Software Eng.15ad1e4d7379e6d016a4ee1eec095c383f086ed4</role>
+      </roles>
     </developer>
   </developers>
-  <scm>
-    <connection>scm:git@github.com:moma-tech/m64.git</connection>
-    <developerConnection>scm:git@github.com:moma-tech/m64.git</developerConnection>
-    <url>https://github.com/moma-tech/m64.git</url>
-  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <m64.version>1.0.0.RELEASE</m64.version>
+    <m64.version>${version}</m64.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>top.mmtech</groupId>
+        <groupId>top.moma</groupId>
         <artifactId>m64-core</artifactId>
         <version>${m64.version}</version>
       </dependency>
       <dependency>
-        <groupId>top.mmtech</groupId>
+        <groupId>top.moma</groupId>
         <artifactId>m64-common-helper</artifactId>
         <version>${m64.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -70,26 +66,17 @@
     </dependency>
   </dependencies>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
-  </distributionManagement>
-
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
+        <!-- 绑定source插件到Maven的生命周期,并在生命周期后执行绑定的source的goal -->
         <executions>
           <execution>
-            <id>attach-sources</id>
+            <!-- 绑定source插件到Maven的生命周期 -->
+            <phase>compile</phase>
+            <!--在生命周期后执行绑定的source插件的goals -->
             <goals>
               <goal>jar-no-fork</goal>
             </goals>
@@ -125,4 +112,99 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>snapshots</id>
+      <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>rdc-releases</id>
+      <url>https://packages.aliyun.com/maven/repository/2070265-release-VlmW8L/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>rdc-snapshots</id>
+      <url>https://packages.aliyun.com/maven/repository/2070265-snapshot-xIjyM8/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>central</id>
+      <url>https://maven.aliyun.com/repository/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>snapshots</id>
+      <url>https://maven.aliyun.com/repository/public</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>rdc-releases</id>
+      <url>https://packages.aliyun.com/maven/repository/2070265-release-VlmW8L/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>rdc-snapshots</id>
+      <url>https://packages.aliyun.com/maven/repository/2070265-snapshot-xIjyM8/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <distributionManagement>
+    <repository>
+      <id>rdc-releases</id>
+      <url>https://packages.aliyun.com/maven/repository/2070265-release-VlmW8L/</url>
+    </repository>
+    <snapshotRepository>
+      <id>rdc-snapshots</id>
+      <url>https://packages.aliyun.com/maven/repository/2070265-snapshot-xIjyM8/</url>
+    </snapshotRepository>
+  </distributionManagement>
 </project>
