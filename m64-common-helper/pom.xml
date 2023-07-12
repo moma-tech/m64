@@ -12,6 +12,11 @@
   <name>${project.groupId}:${project.artifactId}</name>
   <description>M64 Functions Tools that rely on 3rd party projects/open source components
   </description>
+
+  <properties>
+    <jasypt.version>3.0.5</jasypt.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>top.moma</groupId>
@@ -21,6 +26,13 @@
     <dependency>
       <groupId>com.fasterxml.jackson.datatype</groupId>
       <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
+
+    <!-- Security -->
+    <dependency>
+      <groupId>com.github.ulisesbocchio</groupId>
+      <artifactId>jasypt-spring-boot-starter</artifactId>
+      <version>${jasypt.version}</version>
     </dependency>
   </dependencies>
 </project>
