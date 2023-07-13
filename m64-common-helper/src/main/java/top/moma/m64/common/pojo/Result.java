@@ -11,7 +11,7 @@ import top.moma.m64.core.exceptions.M64Exception;
  * @version 1.0
  * @author Created by ivan at 15:30.
  */
-public class Result<T extends java.io.Serializable> implements java.io.Serializable {
+public class Result<T> implements java.io.Serializable {
 
   @Serial private static final long serialVersionUID = 8814723944893850290L;
 
