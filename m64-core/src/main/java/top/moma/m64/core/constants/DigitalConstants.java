@@ -14,6 +14,7 @@ public class DigitalConstants {
 
   /** Default Integer */
   public static final Integer DIGITAL_DEFAULT_INTEGER = 0;
-  /** Default DOUBLE */
+
+  /** Default DOUBLE AS String */
   public static final String DIGITAL_DEFAULT_DOUBLE_STRING = "0.0";
 }

@@ -28,7 +28,7 @@ public class ObjectHelper {
    * @since 2023/3/29 17:32
    */
   public static <T> T defaultIfNull(final T object, final T defaultValue) {
-    return isEmpty(object) ? object : defaultValue;
+    return ObjectHelper.isEmpty(object) ? object : defaultValue;
   }
 
   /**
@@ -76,7 +76,7 @@ public class ObjectHelper {
    * @since 2023/3/29 17:33
    */
   public static boolean isNotEmpty(Object obj) {
-    return !isEmpty(obj);
+    return !ObjectHelper.isEmpty(obj);
   }
 
   /**
@@ -102,7 +102,7 @@ public class ObjectHelper {
    * @since 2023/3/29 17:34
    */
   public static Object arrayCopy(Object src, Object dest, int length) {
-    return arrayCopy(src, dest, 0, 0, length);
+    return ObjectHelper.arrayCopy(src, dest, 0, 0, length);
   }
 
   /**

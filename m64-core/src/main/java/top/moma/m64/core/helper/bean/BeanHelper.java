@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import top.moma.m64.core.constants.StringConstants;
+import top.moma.m64.core.exceptions.M64Exception;
 import top.moma.m64.core.helper.ClassHelper;
 import top.moma.m64.core.helper.CollectionHelper;
 import top.moma.m64.core.helper.ObjectHelper;
@@ -27,7 +28,6 @@ import top.moma.m64.core.helper.StringHelper;
  * @version 1.0 Created by ivan at 1/6/21.
  */
 public class BeanHelper {
-
   private BeanHelper() {}
 
   /**
@@ -39,8 +39,8 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2023/3/29 17:37
    */
-  public static <T> Map<String, Object> beanToMap(T bean) {
-    return beanToMap(bean, false);
+  public static <T> Map<String, Object> beanToMap(T bean) throws M64Exception {
+    return BeanHelper.beanToMap(bean, false);
   }
 
   /**
@@ -53,7 +53,7 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2023/3/29 17:37
    */
-  public static <T> Map<String, Object> beanToMap(T bean, boolean includeNull) {
+  public static <T> Map<String, Object> beanToMap(T bean, boolean includeNull) throws M64Exception {
     Map<String, Object> map = Collections.emptyMap();
     if (ObjectHelper.isEmpty(bean)) {
       return map;
@@ -75,7 +75,7 @@ public class BeanHelper {
         }
       }
     } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-      e.printStackTrace();
+      throw new M64Exception(e);
     }
 
     return map;
@@ -90,8 +90,8 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2023/3/29 17:37
    */
-  public static <T> Map<String, String> beanToStringMap(T bean) {
-    return beanToStringMap(bean, false);
+  public static <T> Map<String, String> beanToStringMap(T bean) throws M64Exception {
+    return BeanHelper.beanToStringMap(bean, false);
   }
 
   /**
@@ -104,7 +104,8 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2022/9/13 18:27
    */
-  public static <T> Map<String, String> beanToStringMap(T bean, boolean includeNull) {
+  public static <T> Map<String, String> beanToStringMap(T bean, boolean includeNull)
+      throws M64Exception {
     Map<String, String> map = Collections.emptyMap();
     if (ObjectHelper.isEmpty(bean)) {
       return map;
@@ -125,7 +126,7 @@ public class BeanHelper {
         }
       }
     } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-      e.printStackTrace();
+      throw new M64Exception(e);
     }
     return map;
   }
@@ -139,7 +140,7 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2023/3/29 17:38
    */
-  public static <T> List<Map<String, Object>> beansToMaps(List<T> beanList) {
+  public static <T> List<Map<String, Object>> beansToMaps(List<T> beanList) throws M64Exception {
     List<Map<String, Object>> mapList = Collections.emptyList();
     if (CollectionHelper.isNotEmpty(beanList)) {
       mapList = new ArrayList<>(beanList.size());
@@ -147,7 +148,7 @@ public class BeanHelper {
       T bean;
       for (T anObjList : beanList) {
         bean = anObjList;
-        map = beanToMap(bean);
+        map = BeanHelper.beanToMap(bean);
         mapList.add(map);
       }
     }
@@ -164,7 +165,8 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2023/3/29 17:38
    */
-  public static <T> List<T> mapsToBeans(List<Map<String, Object>> mapList, Class<T> beanClass) {
+  public static <T> List<T> mapsToBeans(List<Map<String, Object>> mapList, Class<T> beanClass)
+      throws M64Exception {
     List<T> beanList = Collections.emptyList();
     if (CollectionHelper.isNotEmpty(mapList)) {
       beanList = new ArrayList<>(mapList.size());
@@ -172,7 +174,7 @@ public class BeanHelper {
       T bean;
       for (Map<String, Object> map1 : mapList) {
         map = map1;
-        bean = mapToBean(map, beanClass);
+        bean = BeanHelper.mapToBean(map, beanClass);
         beanList.add(bean);
       }
     }
@@ -189,7 +191,7 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2023/3/29 17:38
    */
-  public static <T> T mapToBean(Map<String, Object> map, Class<T> beanClass) {
+  public static <T> T mapToBean(Map<String, Object> map, Class<T> beanClass) throws M64Exception {
     T bean = ClassHelper.newInstance(beanClass);
     if (ObjectHelper.isNotEmpty(map)) {
       try {
@@ -205,7 +207,7 @@ public class BeanHelper {
           }
         }
       } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-        e.printStackTrace();
+        throw new M64Exception(e);
       }
     }
     return bean;
@@ -219,7 +221,7 @@ public class BeanHelper {
    * @author Created by ivan
    * @since 2023/3/29 17:38
    */
-  public static String beanToStringParis(Object bean) {
+  public static String beanToStringParis(Object bean) throws M64Exception {
     if (ObjectHelper.isNotEmpty(bean)) {
       StringBuilder stringBuilder = new StringBuilder();
       try {
@@ -248,7 +250,7 @@ public class BeanHelper {
           }
         }
       } catch (IntrospectionException | InvocationTargetException | IllegalAccessException e) {
-        e.printStackTrace();
+        throw new M64Exception(e);
       }
       return stringBuilder.toString();
     }

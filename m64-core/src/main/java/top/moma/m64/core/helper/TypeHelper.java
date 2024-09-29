@@ -690,6 +690,7 @@ public class TypeHelper {
   public static byte charToByte(char c) {
     return (byte) "0123456789ABCDEF".indexOf(c);
   }
+
   /**
    * 数字金额大写转换 先写个完整的然后将如零拾替换成零
    *

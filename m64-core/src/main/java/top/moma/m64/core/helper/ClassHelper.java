@@ -1,11 +1,10 @@
 package top.moma.m64.core.helper;
 
-import top.moma.m64.core.exceptions.M64Exception;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
+import top.moma.m64.core.exceptions.M64Exception;
 
 /**
  * ClassHelper
@@ -51,7 +50,7 @@ public class ClassHelper {
   public static boolean isProxy(Class<?> clazz) {
     if (clazz != null) {
       for (Class<?> cls : clazz.getInterfaces()) {
-        if (PROXY_CLASS_NAMES.contains(cls.getName())) {
+        if (ClassHelper.PROXY_CLASS_NAMES.contains(cls.getName())) {
           return true;
         }
       }
@@ -66,7 +65,7 @@ public class ClassHelper {
    * @return 如果是代理的class，返回父 class，否则返回自身
    */
   public static Class<?> getUserClass(Class<?> clazz) {
-    return isProxy(clazz) ? clazz.getSuperclass() : clazz;
+    return ClassHelper.isProxy(clazz) ? clazz.getSuperclass() : clazz;
   }
 
   /**
@@ -77,7 +76,7 @@ public class ClassHelper {
    */
   public static Class<?> getUserClass(Object object) {
     AssertHelper.notNull(object, "Error: Instance must not be null");
-    return getUserClass(object.getClass());
+    return ClassHelper.getUserClass(object.getClass());
   }
 
   /**
@@ -111,7 +110,7 @@ public class ClassHelper {
    */
   @SuppressWarnings("unchecked")
   public static <T> T newInstance(String clazzName) {
-    return (T) newInstance(toClassConfident(clazzName));
+    return (T) ClassHelper.newInstance(ClassHelper.toClassConfident(clazzName));
   }
 
   /**
@@ -122,7 +121,7 @@ public class ClassHelper {
    */
   public static Class<?> toClassConfident(String name) {
     try {
-      return Class.forName(name, false, getDefaultClassLoader());
+      return Class.forName(name, false, ClassHelper.getDefaultClassLoader());
     } catch (ClassNotFoundException e) {
       try {
         return Class.forName(name);
@@ -141,7 +140,7 @@ public class ClassHelper {
    */
   public static String getPackageName(Class<?> clazz) {
     AssertHelper.notNull(clazz, "Class must not be null");
-    return getPackageName(clazz.getName());
+    return ClassHelper.getPackageName(clazz.getName());
   }
 
   /**
@@ -153,7 +152,7 @@ public class ClassHelper {
    */
   public static String getPackageName(String fqClassName) {
     AssertHelper.notNull(fqClassName, "Class name must not be null");
-    int lastDotIndex = fqClassName.lastIndexOf(PACKAGE_SEPARATOR);
+    int lastDotIndex = fqClassName.lastIndexOf(ClassHelper.PACKAGE_SEPARATOR);
     return (lastDotIndex != -1 ? fqClassName.substring(0, lastDotIndex) : "");
   }
 

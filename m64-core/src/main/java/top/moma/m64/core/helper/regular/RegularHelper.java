@@ -1,8 +1,7 @@
 package top.moma.m64.core.helper.regular;
 
-import top.moma.m64.core.helper.StringHelper;
-
 import java.util.regex.Pattern;
+import top.moma.m64.core.helper.StringHelper;
 
 /**
  * RegularHelper
@@ -36,7 +35,7 @@ public class RegularHelper {
       return true;
     }
     final Pattern pattern = RegularPatterns.get(regex, Pattern.DOTALL);
-    return isMatch(pattern, content);
+    return RegularHelper.isMatch(pattern, content);
   }
 
   /**

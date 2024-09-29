@@ -1,13 +1,12 @@
 package top.moma.m64.core.helper.codec;
 
-import top.moma.m64.core.helper.CharsetHelper;
-import top.moma.m64.core.helper.io.FileHelper;
-import top.moma.m64.core.helper.io.IoHelper;
-
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import top.moma.m64.core.helper.CharsetHelper;
+import top.moma.m64.core.helper.io.FileHelper;
+import top.moma.m64.core.helper.io.IoHelper;
 
 /**
  * Base64Helper
@@ -40,7 +39,7 @@ public class Base64Helper {
    * @return 被加密后的字符串
    */
   public static String encode(CharSequence source, String charset) {
-    return encode(source, CharsetHelper.charset(charset));
+    return Base64Helper.encode(source, CharsetHelper.charset(charset));
   }
 
   /**
@@ -64,6 +63,7 @@ public class Base64Helper {
   public static byte[] encode(byte[] arr, boolean lineSep) {
     return Base64Encoder.encode(arr, lineSep);
   }
+
   /**
    * base64编码，URL安全
    *
@@ -73,6 +73,7 @@ public class Base64Helper {
   public static String encodeUrlSafe(CharSequence source) {
     return Base64Encoder.encodeUrlSafe(source);
   }
+
   /**
    * base64编码,URL安全
    *
@@ -81,7 +82,7 @@ public class Base64Helper {
    * @return 被加密后的字符串
    */
   public static String encodeUrlSafe(CharSequence source, String charset) {
-    return encodeUrlSafe(source, CharsetHelper.charset(charset));
+    return Base64Helper.encodeUrlSafe(source, CharsetHelper.charset(charset));
   }
 
   /**
@@ -186,7 +187,7 @@ public class Base64Helper {
    * @return 被加密后的字符串
    */
   public static String decodeStr(CharSequence source, String charset) {
-    return decodeStr(source, CharsetHelper.charset(charset));
+    return Base64Helper.decodeStr(source, CharsetHelper.charset(charset));
   }
 
   /**
@@ -197,8 +198,9 @@ public class Base64Helper {
    * @since 4.3.2
    */
   public static String decodeStrGbk(CharSequence source) {
-    return decodeStr(source, CharsetHelper.CHARSET_GBK);
+    return Base64Helper.decodeStr(source, CharsetHelper.CHARSET_GBK);
   }
+
   /**
    * base64解码
    *

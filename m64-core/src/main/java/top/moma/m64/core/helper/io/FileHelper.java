@@ -47,8 +47,9 @@ public class FileHelper {
    * @since 3.2.0
    */
   public static byte[] readBytes(String filePath) throws M64Exception {
-    return readBytes(file(filePath));
+    return FileHelper.readBytes(FileHelper.file(filePath));
   }
+
   /**
    * 写数据到文件中
    *
@@ -58,8 +59,9 @@ public class FileHelper {
    * @throws M64Exception IO异常
    */
   public static File writeBytes(byte[] data, File dest) throws M64Exception {
-    return writeBytes(data, dest, 0, data.length, false);
+    return FileHelper.writeBytes(data, dest, 0, data.length, false);
   }
+
   /**
    * 写入数据到文件
    *
@@ -88,6 +90,7 @@ public class FileHelper {
     }
     return new File(path);
   }
+
   /**
    * 创建文件及其父目录，如果这个文件存在，直接返回这个文件<br>
    * 此方法不对File对象类型做判断，如果File不存在，无法判断其类型
@@ -101,13 +104,13 @@ public class FileHelper {
       return null;
     }
     if (!file.exists()) {
-      mkParentDirs(file);
+      Boolean dirResult = FileHelper.mkParentDirs(file);
       try {
-        if (file.createNewFile()) {
+        if (dirResult && file.createNewFile()) {
           return file;
         }
       } catch (Exception e) {
-        throw new M64Exception(e);
+        throw new M64Exception("FileHelper.touch, Exception", e);
       }
     }
     return file;
@@ -119,13 +122,13 @@ public class FileHelper {
    * @param file 文件或目录
    * @return 父目录
    */
-  public static File mkParentDirs(File file) {
+  public static Boolean mkParentDirs(File file) {
     final File parentFile = file.getParentFile();
+    boolean mkResult = true;
     if (null != parentFile && !parentFile.exists()) {
-      //noinspection ResultOfMethodCallIgnored
-      parentFile.mkdirs();
+      mkResult = parentFile.mkdirs();
     }
-    return parentFile;
+    return mkResult;
   }
 
   /**
@@ -139,7 +142,7 @@ public class FileHelper {
    * @since 2023/3/29 17:57
    */
   public static boolean deleteFile(String destFile) {
-    return deleteFile(new File(destFile));
+    return FileHelper.deleteFile(new File(destFile));
   }
 
   /**
@@ -155,9 +158,9 @@ public class FileHelper {
       return false;
     }
     try {
-      return deleteFile(destFile.toPath());
+      return FileHelper.deleteFile(destFile.toPath());
     } catch (IOException ex) {
-      throw new M64Exception("File Delete Error: ", ex);
+      throw new M64Exception("FileHelper.deleteFile, Exception", ex);
     }
   }
 
@@ -208,16 +211,17 @@ public class FileHelper {
    * @since 2022/8/19 14:38
    */
   public static boolean transfer(File sourceFile, File destFile) {
-    try (FileChannel in = new FileInputStream(sourceFile).getChannel();
-        FileChannel out = new FileOutputStream(FileHelper.touch(destFile)).getChannel()) {
-      long size = in.size();
+    try (FileInputStream in = new FileInputStream(sourceFile);
+        FileOutputStream out = new FileOutputStream(FileHelper.touch(destFile))) {
+      FileChannel inCh = in.getChannel();
+      FileChannel outCh = out.getChannel();
+      long size = inCh.size();
       for (long left = size; left > 0; ) {
-        left = left - in.transferTo((size - left), left, out);
+        left = left - inCh.transferTo((size - left), left, outCh);
       }
       return true;
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new M64Exception("FileHelper.transfer, Exception", e);
     }
-    return false;
   }
 }

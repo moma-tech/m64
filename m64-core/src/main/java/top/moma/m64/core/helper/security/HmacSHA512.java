@@ -32,9 +32,9 @@ public class HmacSHA512 {
    */
   public static String sign(String data) {
     try {
-      return sign(data, SHA512_DEF_KEY);
+      return HmacSHA512.sign(data, HmacSHA512.SHA512_DEF_KEY);
     } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      throw new M64Exception("HmacSHA512,sign,error", e);
+      throw new M64Exception("HmacSHA512.sign,error", e);
     }
   }
 
@@ -50,10 +50,10 @@ public class HmacSHA512 {
   public static String sign(String data, String key)
       throws NoSuchAlgorithmException, InvalidKeyException {
     SecretKeySpec secretKeySpec =
-        new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), HMAC_SHA512);
-    Mac mac = Mac.getInstance(HMAC_SHA512);
+        new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), HmacSHA512.HMAC_SHA512);
+    Mac mac = Mac.getInstance(HmacSHA512.HMAC_SHA512);
     mac.init(secretKeySpec);
-    return toHexString(mac.doFinal(data.getBytes(StandardCharsets.UTF_8)));
+    return HmacSHA512.toHexString(mac.doFinal(data.getBytes(StandardCharsets.UTF_8)));
   }
 
   /**

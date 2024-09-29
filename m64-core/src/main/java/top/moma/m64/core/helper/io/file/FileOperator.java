@@ -1,15 +1,11 @@
 package top.moma.m64.core.helper.io.file;
 
+import java.io.*;
+import java.nio.charset.Charset;
 import top.moma.m64.core.exceptions.M64Exception;
 import top.moma.m64.core.helper.CharsetHelper;
 import top.moma.m64.core.helper.StringHelper;
 import top.moma.m64.core.helper.io.FileHelper;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.Charset;
 
 /**
  * FileOperator
@@ -19,8 +15,8 @@ import java.nio.charset.Charset;
  * @author ivan
  * @version 1.0 Created by ivan at 11/25/20.
  */
-public class FileOperator {
-  private static final long serialVersionUID = -2501353655694075987L;
+public class FileOperator implements Serializable {
+  @Serial private static final long serialVersionUID = -2501353655694075987L;
 
   private final File file;
   private final Charset charset;
@@ -51,7 +47,7 @@ public class FileOperator {
     try (FileInputStream in = new FileInputStream(file)) {
       readLength = in.read(bytes);
       if (readLength < len) {
-        throw new IOException(
+        throw new M64Exception(
             StringHelper.format("File length is [{}] but read [{}]!", len, readLength));
       }
     } catch (Exception e) {
@@ -59,6 +55,7 @@ public class FileOperator {
     }
     return bytes;
   }
+
   /**
    * 写入数据到文件
    *
@@ -78,6 +75,7 @@ public class FileOperator {
     }
     return file;
   }
+
   /**
    * Static Builder
    *

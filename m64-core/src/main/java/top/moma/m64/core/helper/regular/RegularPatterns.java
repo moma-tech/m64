@@ -1,8 +1,7 @@
 package top.moma.m64.core.helper.regular;
 
-import top.moma.m64.core.helper.cache.WeakMapCache;
-
 import java.util.regex.Pattern;
+import top.moma.m64.core.helper.cache.WeakMapCache;
 
 /**
  * RegularPatterns
@@ -28,7 +27,7 @@ public class RegularPatterns {
    * @return {@link Pattern}
    */
   public static Pattern get(String regex) {
-    return get(regex, 0);
+    return RegularPatterns.get(regex, 0);
   }
 
   /**
@@ -41,10 +40,10 @@ public class RegularPatterns {
   public static Pattern get(String regex, int flags) {
     final RegexWithFlag regexWithFlag = new RegexWithFlag(regex, flags);
 
-    Pattern pattern = POOL.get(regexWithFlag);
+    Pattern pattern = RegularPatterns.POOL.get(regexWithFlag);
     if (null == pattern) {
       pattern = Pattern.compile(regex, flags);
-      POOL.put(regexWithFlag, pattern);
+      RegularPatterns.POOL.put(regexWithFlag, pattern);
     }
     return pattern;
   }
@@ -57,13 +56,14 @@ public class RegularPatterns {
    * @return 移除的{@link Pattern}，可能为{@code null}
    */
   public static Pattern remove(String regex, int flags) {
-    return POOL.remove(new RegexWithFlag(regex, flags));
+    return RegularPatterns.POOL.remove(new RegexWithFlag(regex, flags));
   }
 
   /** 清空缓存池 */
   public static void clear() {
-    POOL.empty();
+    RegularPatterns.POOL.empty();
   }
+
   /**
    * 正则表达式和正则标识位的包装
    *

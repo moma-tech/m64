@@ -5,7 +5,6 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import top.moma.m64.core.constants.IoConstants;
 import top.moma.m64.core.exceptions.M64Exception;
@@ -31,7 +30,7 @@ public class IoHelper {
    * @return byte[]
    */
   public static byte[] readBytes(InputStream in) throws M64Exception {
-    return readBytes(in, true);
+    return IoHelper.readBytes(in, true);
   }
 
   /**
@@ -44,9 +43,9 @@ public class IoHelper {
    */
   public static byte[] readBytes(InputStream in, boolean closeFlag) throws M64Exception {
     final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    copy(in, out);
+    IoHelper.copy(in, out);
     if (closeFlag) {
-      close(in);
+      IoHelper.close(in);
     }
     return out.toByteArray();
   }
@@ -66,7 +65,7 @@ public class IoHelper {
       throw new M64Exception(e);
     } finally {
       if (closeFlag) {
-        close(out);
+        IoHelper.close(out);
       }
     }
   }
@@ -80,7 +79,7 @@ public class IoHelper {
    * @return long
    */
   public static long copy(InputStream in, OutputStream out) throws M64Exception {
-    return copy(in, out, IoConstants.DEFAULT_BUFFER_SIZE);
+    return IoHelper.copy(in, out, IoConstants.DEFAULT_BUFFER_SIZE);
   }
 
   /**
@@ -136,14 +135,14 @@ public class IoHelper {
    * @param input input
    * @param charset charset
    * @return java.lang.String
-   * @throws UnsupportedEncodingException 不支持的编码
+   * @throws IllegalArgumentException 不支持的编码
    * @author Created by ivan
    * @since 2023/3/29 17:58
    */
   public static String toString(final InputStream input, final Charset charset)
-      throws UnsupportedEncodingException {
+      throws IllegalArgumentException {
     ByteArrayOutputStream result = new ByteArrayOutputStream();
-    copy(input, result);
-    return result.toString(charset.name());
+    IoHelper.copy(input, result);
+    return result.toString(charset);
   }
 }

@@ -1,5 +1,6 @@
 package top.moma.m64.core.exceptions;
 
+import java.io.Serial;
 import top.moma.m64.core.constants.StringConstants;
 import top.moma.m64.core.helper.StringHelper;
 
@@ -12,7 +13,7 @@ import top.moma.m64.core.helper.StringHelper;
  * @version 1.0 Created by ivan at 11/25/20.
  */
 public class M64Exception extends RuntimeException {
-  private static final long serialVersionUID = -1014991939147493778L;
+  @Serial private static final long serialVersionUID = -1014991939147493778L;
 
   public M64Exception(Throwable e) {
     super(e.getClass().getSimpleName() + StringConstants.COLON + e.getMessage());

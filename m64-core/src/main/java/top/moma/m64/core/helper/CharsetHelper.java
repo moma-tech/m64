@@ -1,9 +1,8 @@
 package top.moma.m64.core.helper;
 
-import top.moma.m64.core.constants.StringConstants;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import top.moma.m64.core.constants.StringConstants;
 
 /**
  * CharsetHelper
@@ -19,8 +18,10 @@ public class CharsetHelper {
 
   /** ISO-8859-1 */
   public static final Charset CHARSET_ISO_8859_1 = StandardCharsets.ISO_8859_1;
+
   /** UTF-8 */
   public static final Charset CHARSET_UTF_8 = StandardCharsets.UTF_8;
+
   /** GBK */
   public static final Charset CHARSET_GBK = Charset.forName(StringConstants.GBK);
 
@@ -43,7 +44,7 @@ public class CharsetHelper {
    * @return 转换后的字符集
    */
   public static String convert(String source, String srcCharset, String destCharset) {
-    return convert(source, Charset.forName(srcCharset), Charset.forName(destCharset));
+    return CharsetHelper.convert(source, Charset.forName(srcCharset), Charset.forName(destCharset));
   }
 
   /**

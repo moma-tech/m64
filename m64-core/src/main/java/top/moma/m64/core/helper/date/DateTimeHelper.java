@@ -56,7 +56,7 @@ public class DateTimeHelper {
    * @return java.time.LocalDateTime
    */
   public static LocalDateTime of(Instant instant) {
-    return of(instant, ZoneId.systemDefault());
+    return DateTimeHelper.of(instant, ZoneId.systemDefault());
   }
 
   /**
@@ -93,7 +93,7 @@ public class DateTimeHelper {
    * @return java.time.LocalDateTime
    */
   public static LocalDateTime ofUTC(Instant instant) {
-    return of(instant, ZoneId.of("UTC"));
+    return DateTimeHelper.of(instant, ZoneId.of("UTC"));
   }
 
   /**
@@ -104,7 +104,7 @@ public class DateTimeHelper {
    * @return java.time.LocalDateTime
    */
   public static LocalDateTime ofCTT(Instant instant) {
-    return of(instant, ZoneId.of(ZoneId.SHORT_IDS.get("CTT")));
+    return DateTimeHelper.of(instant, ZoneId.of(ZoneId.SHORT_IDS.get("CTT")));
   }
 
   /**
@@ -120,9 +120,9 @@ public class DateTimeHelper {
       return null;
     }
     if (null == zoneId) {
-      return of(date.toInstant());
+      return DateTimeHelper.of(date.toInstant());
     }
-    return of(date.toInstant(), zoneId);
+    return DateTimeHelper.of(date.toInstant(), zoneId);
   }
 
   /**
@@ -147,8 +147,9 @@ public class DateTimeHelper {
    * @return java.time.LocalDateTime
    */
   public static LocalDateTime of(long timestamp) {
-    return of(timestamp, ZoneId.systemDefault());
+    return DateTimeHelper.of(timestamp, ZoneId.systemDefault());
   }
+
   /**
    * Get DateTime of Timestamp/Long value with UTC Time Zone
    *
@@ -157,7 +158,7 @@ public class DateTimeHelper {
    * @return java.time.LocalDateTime
    */
   public static LocalDateTime ofUTC(long timestamp) {
-    return of(timestamp, ZoneId.of("UTC"));
+    return DateTimeHelper.of(timestamp, ZoneId.of("UTC"));
   }
 
   /**
@@ -168,7 +169,7 @@ public class DateTimeHelper {
    * @return java.time.LocalDateTime
    */
   public static LocalDateTime ofTCC(long timestamp) {
-    return of(timestamp, ZoneId.of(ZoneId.SHORT_IDS.get("CTT")));
+    return DateTimeHelper.of(timestamp, ZoneId.of(ZoneId.SHORT_IDS.get("CTT")));
   }
 
   /**
@@ -186,7 +187,7 @@ public class DateTimeHelper {
     if (null == dateTimeFormatter) {
       return LocalDateTime.parse(dateTime);
     }
-    return of(dateTimeFormatter.parse(dateTime));
+    return DateTimeHelper.of(dateTimeFormatter.parse(dateTime));
   }
 
   /**
@@ -222,7 +223,7 @@ public class DateTimeHelper {
         dateTimeFormatter = DateTimeFormatter.ofPattern(format);
       }
     }
-    return parse(dateTime, dateTimeFormatter);
+    return DateTimeHelper.parse(dateTime, dateTimeFormatter);
   }
 
   /**
@@ -233,8 +234,9 @@ public class DateTimeHelper {
    * @return java.time.LocalDateTime
    */
   public static LocalDateTime parse(CharSequence dateTime) {
-    return parse(dateTime, DateTimePatterns.DEFAULT_DATETIME_PATTERN);
+    return DateTimeHelper.parse(dateTime, DateTimePatterns.DEFAULT_DATETIME_PATTERN);
   }
+
   /**
    * get LocalDate of Temporal Accessor
    *
@@ -272,7 +274,7 @@ public class DateTimeHelper {
     if (null == dateTimeFormatter) {
       return LocalDate.parse(date);
     }
-    return ofDate(dateTimeFormatter.parse(date));
+    return DateTimeHelper.ofDate(dateTimeFormatter.parse(date));
   }
 
   /**
@@ -296,7 +298,7 @@ public class DateTimeHelper {
    * @return java.time.LocalDate
    */
   public static LocalDate parseDate(CharSequence date) {
-    return parseDate(date, DateTimePatterns.DEFAULT_DATE_PATTERN);
+    return DateTimeHelper.parseDate(date, DateTimePatterns.DEFAULT_DATE_DASH_PATTERN);
   }
 
   /**
@@ -338,8 +340,8 @@ public class DateTimeHelper {
    * @since 2023/3/29 17:53
    */
   public static LocalDateTime afterSpecifiedTimeGap(long baseTs, long gap, ChronoUnit timeUnit) {
-    LocalDateTime base = of(baseTs);
-    return afterSpecifiedTimeGap(base, gap, timeUnit);
+    LocalDateTime base = DateTimeHelper.of(baseTs);
+    return DateTimeHelper.afterSpecifiedTimeGap(base, gap, timeUnit);
   }
 
   /**
@@ -433,7 +435,7 @@ public class DateTimeHelper {
    * @since 2023/3/29 17:55
    */
   public static String getCurrentHour24Format() {
-    return getGivenHour24Format(LocalDateTime.now());
+    return DateTimeHelper.getGivenHour24Format(LocalDateTime.now());
   }
 
   /**
@@ -461,8 +463,9 @@ public class DateTimeHelper {
    * @return java.lang.String
    */
   public static String getDateTime26Length() {
-    return toString(LocalDateTime.now(), DateTimePatterns.DATE_TIME_LENGTH_26);
+    return DateTimeHelper.toString(LocalDateTime.now(), DateTimePatterns.DATE_TIME_LENGTH_26);
   }
+
   /**
    * getDateTime8Length
    *
@@ -474,7 +477,7 @@ public class DateTimeHelper {
    * @return java.lang.String
    */
   public static String getDateTime8Length() {
-    return toString(LocalDateTime.now(), DateTimePatterns.ABSOLUTE_DATE_PATTERN);
+    return DateTimeHelper.toString(LocalDateTime.now(), DateTimePatterns.ABSOLUTE_DATE_PATTERN);
   }
 
   /**
@@ -486,7 +489,7 @@ public class DateTimeHelper {
    * @return java.lang.String
    */
   public static String getDate() {
-    return toString(LocalDateTime.now(), DateTimePatterns.DEFAULT_DATETIME_PATTERN);
+    return DateTimeHelper.toString(LocalDateTime.now(), DateTimePatterns.DEFAULT_DATETIME_PATTERN);
   }
 
   /**
@@ -510,7 +513,7 @@ public class DateTimeHelper {
    * @return java.lang.String
    */
   public static String toString(LocalDateTime localDateTime) {
-    return toString(localDateTime, DateTimePatterns.DEFAULT_DATETIME_PATTERN);
+    return DateTimeHelper.toString(localDateTime, DateTimePatterns.DEFAULT_DATETIME_PATTERN);
   }
 
   /**
@@ -521,7 +524,7 @@ public class DateTimeHelper {
    * @return long
    */
   public static long toTimestamp(LocalDateTime localDateTime) {
-    return toTimestamp(localDateTime, ZoneId.systemDefault());
+    return DateTimeHelper.toTimestamp(localDateTime, ZoneId.systemDefault());
   }
 
   /**
@@ -548,7 +551,8 @@ public class DateTimeHelper {
    * @since 2023/3/29 17:55
    */
   public static int getDayOfWeek(CharSequence date) {
-    LocalDateTime localDateTime = parse(date, getDateFormat(date.toString()));
+    LocalDateTime localDateTime =
+        DateTimeHelper.parse(date, DateTimeHelper.getDateFormat(date.toString()));
     return ObjectHelper.isEmpty(localDateTime) ? -1 : localDateTime.getDayOfWeek().getValue();
   }
 

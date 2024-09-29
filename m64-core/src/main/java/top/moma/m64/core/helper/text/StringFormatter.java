@@ -37,7 +37,7 @@ public class StringFormatter {
     final int strPatternLength = strPattern.length();
 
     // 初始化定义好的长度以获得更好的性能
-    StringBuilder sbuf = new StringBuilder(strPatternLength + 50);
+    StringBuilder sbuf = new StringBuilder(strPatternLength + argArray.length * 8);
 
     int handledPosition = 0; // 记录已经处理到的位置
     int delimIndex; // 占位符所在位置
@@ -48,7 +48,7 @@ public class StringFormatter {
           return strPattern;
         }
         // 字符串模板剩余部分不再包含占位符，加入剩余部分后返回结果
-        sbuf.append(strPattern, handledPosition, strPatternLength);
+        sbuf.append(strPattern.substring(handledPosition));
         return sbuf.toString();
       }
 

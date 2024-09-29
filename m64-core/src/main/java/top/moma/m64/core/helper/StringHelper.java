@@ -64,6 +64,7 @@ public class StringHelper {
   public static boolean isBlank(CharSequence charSequence) {
     return !isNotBlank(charSequence);
   }
+
   /**
    * if String is not Empty
    *
@@ -261,6 +262,7 @@ public class StringHelper {
     }
     return new String(charArray);
   }
+
   /**
    * Get SubString
    *
@@ -390,6 +392,7 @@ public class StringHelper {
   public static String[] toStringArray(Enumeration<String> enumeration) {
     return (enumeration != null ? toStringArray(Collections.list(enumeration)) : new String[] {});
   }
+
   /**
    * Copy the given {@link Collection} into a {@code String} array.
    *
@@ -641,6 +644,7 @@ public class StringHelper {
     }
     return charset.decode(data).toString();
   }
+
   /**
    * 将编码的byteBuffer数据转换为字符串
    *

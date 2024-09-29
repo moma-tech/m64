@@ -1,5 +1,7 @@
 package top.moma.m64.core.helper;
 
+import java.util.Objects;
+
 /**
  * AssertHelper
  *
@@ -21,7 +23,7 @@ public class AssertHelper {
    * @since 2022/9/13 17:46
    */
   public static void notNull(Object object, String message) {
-    if (object == null) {
+    if (Objects.isNull(object)) {
       throw new IllegalArgumentException(message);
     }
   }

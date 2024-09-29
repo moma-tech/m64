@@ -1,10 +1,9 @@
 package top.moma.m64.core.helper.codec;
 
-import top.moma.m64.core.helper.ObjectHelper;
-import top.moma.m64.core.helper.StringHelper;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import top.moma.m64.core.helper.ObjectHelper;
+import top.moma.m64.core.helper.StringHelper;
 
 /**
  * Base64解码实现
@@ -38,7 +37,7 @@ public class Base64Decoder {
    * @return 被加密后的字符串
    */
   public static String decodeStr(CharSequence source) {
-    return decodeStr(source, DEFAULT_CHARSET);
+    return Base64Decoder.decodeStr(source, Base64Decoder.DEFAULT_CHARSET);
   }
 
   /**
@@ -49,7 +48,7 @@ public class Base64Decoder {
    * @return 被加密后的字符串
    */
   public static String decodeStr(CharSequence source, Charset charset) {
-    return StringHelper.toString(decode(source), charset);
+    return StringHelper.toString(Base64Decoder.decode(source), charset);
   }
 
   /**
@@ -59,7 +58,7 @@ public class Base64Decoder {
    * @return 被加密后的字符串
    */
   public static byte[] decode(CharSequence source) {
-    return decode(source.toString().getBytes(DEFAULT_CHARSET));
+    return Base64Decoder.decode(source.toString().getBytes(Base64Decoder.DEFAULT_CHARSET));
   }
 
   /**
@@ -72,7 +71,7 @@ public class Base64Decoder {
     if (ObjectHelper.isEmpty(in)) {
       return in;
     }
-    return decode(in, 0, in.length);
+    return Base64Decoder.decode(in, 0, in.length);
   }
 
   /**
@@ -98,18 +97,18 @@ public class Base64Decoder {
     int octetId = 0;
     byte[] octet = new byte[length * 3 / 4]; // over-estimated if non-base64 characters present
     while (offset.value <= maxPos) {
-      sestet0 = getNextValidDecodeByte(in, offset, maxPos);
-      sestet1 = getNextValidDecodeByte(in, offset, maxPos);
-      sestet2 = getNextValidDecodeByte(in, offset, maxPos);
-      sestet3 = getNextValidDecodeByte(in, offset, maxPos);
+      sestet0 = Base64Decoder.getNextValidDecodeByte(in, offset, maxPos);
+      sestet1 = Base64Decoder.getNextValidDecodeByte(in, offset, maxPos);
+      sestet2 = Base64Decoder.getNextValidDecodeByte(in, offset, maxPos);
+      sestet3 = Base64Decoder.getNextValidDecodeByte(in, offset, maxPos);
 
-      if (PADDING != sestet1) {
+      if (Base64Decoder.PADDING != sestet1) {
         octet[octetId++] = (byte) ((sestet0 << 2) | (sestet1 >>> 4));
       }
-      if (PADDING != sestet2) {
+      if (Base64Decoder.PADDING != sestet2) {
         octet[octetId++] = (byte) (((sestet1 & 0xf) << 4) | (sestet2 >>> 2));
       }
-      if (PADDING != sestet3) {
+      if (Base64Decoder.PADDING != sestet3) {
         octet[octetId++] = (byte) (((sestet2 & 3) << 6) | sestet3);
       }
     }
@@ -138,14 +137,14 @@ public class Base64Decoder {
     while (pos.value <= maxPos) {
       base64Byte = in[pos.value++];
       if (base64Byte > -1) {
-        decodeByte = DECODE_TABLE[base64Byte];
+        decodeByte = Base64Decoder.DECODE_TABLE[base64Byte];
         if (decodeByte > -1) {
           return decodeByte;
         }
       }
     }
     // padding if reached max position
-    return PADDING;
+    return Base64Decoder.PADDING;
   }
 
   /**

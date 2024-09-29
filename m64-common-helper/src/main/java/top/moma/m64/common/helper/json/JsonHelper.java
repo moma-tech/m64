@@ -126,11 +126,11 @@ public class JsonHelper {
     jsr310Module.addSerializer(
         LocalDate.class,
         new LocalDateSerializer(
-            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_DATE_PATTERN)));
+            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_DATE_DASH_PATTERN)));
     jsr310Module.addSerializer(
         LocalTime.class,
         new LocalTimeSerializer(
-            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_TIME_PATTERN)));
+            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_TIME_COLON_PATTERN)));
     jsr310Module.addDeserializer(
         LocalDateTime.class,
         new LocalDateTimeDeserializer(
@@ -138,11 +138,11 @@ public class JsonHelper {
     jsr310Module.addDeserializer(
         LocalDate.class,
         new LocalDateDeserializer(
-            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_DATE_PATTERN)));
+            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_DATE_DASH_PATTERN)));
     jsr310Module.addDeserializer(
         LocalTime.class,
         new LocalTimeDeserializer(
-            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_TIME_PATTERN)));
+            DateTimeFormatter.ofPattern(DateTimePatterns.DEFAULT_TIME_COLON_PATTERN)));
     objectMapper.registerModule(jsr310Module);
   }
 

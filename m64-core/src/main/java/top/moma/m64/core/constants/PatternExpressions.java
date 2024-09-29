@@ -18,68 +18,91 @@ public class PatternExpressions {
 
   /** 英文字母 、数字和下划线 */
   public static final Pattern GENERAL = Pattern.compile("^\\w+$");
+
   /** 数字 */
   public static final Pattern NUMBERS = Pattern.compile("\\d+");
+
   /** 字母 */
   public static final Pattern WORD = Pattern.compile("[a-zA-Z]+");
+
   /** 单个中文汉字 */
   public static final Pattern CHINESE_SINGLE = Pattern.compile("[\u4E00-\u9FFF]");
+
   /** 中文汉字 */
   public static final Pattern CHINESE_MULTI = Pattern.compile("[\u4E00-\u9FFF]+");
+
   /** 日期字符串 */
   public static final Pattern DATE_PATTERN = Pattern.compile("^[\\d]*$");
+
   /** 分组 */
   public static final Pattern GROUP_VAR = Pattern.compile("\\$(\\d+)");
+
   /** IP v4 */
   public static final Pattern IPV4 =
       Pattern.compile(
           "\\b((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\.((?!\\d\\d\\d)\\d+|1\\d\\d|2[0-4]\\d|25[0-5])\\b");
+
   /** IP v6 */
   public static final Pattern IPV6 =
       Pattern.compile(
           "(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]+|::(ffff(:0{1,4})?:)?((25[0-5]|(2[0-4]|1?[0-9])?[0-9])\\.){3}(25[0-5]|(2[0-4]|1?[0-9])?[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1?[0-9])?[0-9])\\.){3}(25[0-5]|(2[0-4]|1?[0-9])?[0-9]))");
+
   /** 货币 */
   public static final Pattern MONEY = Pattern.compile("^(\\d+(?:\\.\\d+)?)$");
+
   /** 邮件，符合RFC 5322规范，正则来自：http://emailregex.com/ */
   // public final static Pattern EMAIL = Pattern.compile("(\\w|.)+@\\w+(\\.\\w+){1,2}");
   public static final Pattern EMAIL =
       Pattern.compile(
           "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)])",
           Pattern.CASE_INSENSITIVE);
+
   /** 移动电话 */
   public static final Pattern MOBILE = Pattern.compile("(?:0|86|\\+86)?1[3-9]\\d{9}");
+
   /** 18位身份证号码 */
   public static final Pattern CITIZEN_ID =
       Pattern.compile("[1-9]\\d{5}[1-2]\\d{3}((0\\d)|(1[0-2]))(([012]\\d)|3[0-1])\\d{3}(\\d|X|x)");
+
   /** 邮编 */
   public static final Pattern ZIP_CODE = Pattern.compile("[1-9]\\d{5}(?!\\d)");
+
   /** 生日 */
   public static final Pattern BIRTHDAY =
       Pattern.compile("^(\\d{2,4})([/\\-.年]?)(\\d{1,2})([/\\-.月]?)(\\d{1,2})日?$");
+
   /** URL */
   public static final Pattern URL = Pattern.compile("[a-zA-z]+://[^\\s]*");
+
   /** Http URL */
   public static final Pattern URL_HTTP =
       Pattern.compile("(https://|http://)?([\\w-]+\\.)+[\\w-]+(:\\d+)*(/[\\w- ./?%&=]*)?");
+
   /** 中文字、英文字母、数字和下划线 */
   public static final Pattern GENERAL_WITH_CHINESE = Pattern.compile("^[\u4E00-\u9FFF\\w]+$");
+
   /** UUID */
   public static final Pattern UUID =
       Pattern.compile(
           "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
           Pattern.CASE_INSENSITIVE);
+
   /** 不带横线的UUID */
   public static final Pattern UUID_SIMPLE =
       Pattern.compile("^[0-9a-f]{32}$", Pattern.CASE_INSENSITIVE);
+
   /** MAC地址正则 */
   public static final Pattern MAC_ADDRESS =
       Pattern.compile(
           "((?:[A-F0-9]{1,2}[:-]){5}[A-F0-9]{1,2})|(?:0x)(\\d{12})(?:.+ETHER)",
           Pattern.CASE_INSENSITIVE);
+
   /** 16进制字符串 */
   public static final Pattern HEX = Pattern.compile("^[a-f0-9]+$", Pattern.CASE_INSENSITIVE);
+
   /** 时间正则 */
   public static final Pattern TIME = Pattern.compile("\\d{1,2}:\\d{1,2}(:\\d{1,2})?");
+
   /** 中国车牌号码（兼容新能源车牌） */
   public static final Pattern PLATE_NUMBER =
       Pattern.compile(
@@ -89,6 +112,7 @@ public class PatternExpressions {
               // https://gitee.com/loolly/hutool/issues/I1BJHE?from=project-issue
               "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领]\\d{3}\\d{1,3}[领])|"
               + "([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$");
+
   /**
    * 社会统一信用代码
    *

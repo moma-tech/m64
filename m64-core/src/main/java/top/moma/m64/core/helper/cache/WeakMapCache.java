@@ -1,5 +1,7 @@
 package top.moma.m64.core.helper.cache;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -12,8 +14,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @author ivan
  * @version 1.0 Created by ivan at 11/23/20.
  */
-public class WeakMapCache<K, V> {
-  private static final long serialVersionUID = -6003538455202187956L;
+public class WeakMapCache<K, V> implements Serializable {
+  @Serial private static final long serialVersionUID = -6003538455202187956L;
 
   /** 缓存池 */
   private final Map<K, V> simpleMapCache;
@@ -21,9 +23,13 @@ public class WeakMapCache<K, V> {
   /** 读写锁 */
   private final ReentrantReadWriteLock cacheLock = new ReentrantReadWriteLock();
 
+  /** 读锁 */
   private final ReentrantReadWriteLock.ReadLock readLock = cacheLock.readLock();
+
+  /** 写锁 */
   private final ReentrantReadWriteLock.WriteLock writeLock = cacheLock.writeLock();
 
+  /** 缓存MAP */
   public WeakMapCache() {
     simpleMapCache = new WeakHashMap<>();
   }

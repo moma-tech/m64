@@ -1,9 +1,8 @@
 package top.moma.m64.core.helper.codec;
 
-import top.moma.m64.core.helper.StringHelper;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import top.moma.m64.core.helper.StringHelper;
 
 /**
  * Base64编码
@@ -14,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 public class Base64Encoder {
 
   private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+
   /** 标准编码表 */
   private static final byte[] STANDARD_ENCODE_TABLE = { //
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //
@@ -25,6 +25,7 @@ public class Base64Encoder {
     'w', 'x', 'y', 'z', '0', '1', '2', '3', //
     '4', '5', '6', '7', '8', '9', '+', '/' //
   };
+
   /** URL安全的编码表，将 + 和 / 替换为 - 和 _ */
   private static final byte[] URL_SAFE_ENCODE_TABLE = { //
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //
@@ -46,7 +47,7 @@ public class Base64Encoder {
    * @return 编码后的bytes
    */
   public static byte[] encode(byte[] arr, boolean lineSep) {
-    return encode(arr, lineSep, false);
+    return Base64Encoder.encode(arr, lineSep, false);
   }
 
   /**
@@ -58,7 +59,7 @@ public class Base64Encoder {
    * @since 3.0.6
    */
   public static byte[] encodeUrlSafe(byte[] arr, boolean lineSep) {
-    return encode(arr, lineSep, true);
+    return Base64Encoder.encode(arr, lineSep, true);
   }
 
   /**
@@ -68,7 +69,7 @@ public class Base64Encoder {
    * @return 被加密后的字符串
    */
   public static String encode(CharSequence source) {
-    return encode(source, DEFAULT_CHARSET);
+    return Base64Encoder.encode(source, Base64Encoder.DEFAULT_CHARSET);
   }
 
   /**
@@ -79,7 +80,7 @@ public class Base64Encoder {
    * @since 3.0.6
    */
   public static String encodeUrlSafe(CharSequence source) {
-    return encodeUrlSafe(source, DEFAULT_CHARSET);
+    return Base64Encoder.encodeUrlSafe(source, Base64Encoder.DEFAULT_CHARSET);
   }
 
   /**
@@ -90,7 +91,7 @@ public class Base64Encoder {
    * @return 被加密后的字符串
    */
   public static String encode(CharSequence source, Charset charset) {
-    return encode(source.toString().getBytes(charset));
+    return Base64Encoder.encode(source.toString().getBytes(charset));
   }
 
   /**
@@ -102,7 +103,7 @@ public class Base64Encoder {
    * @since 3.0.6
    */
   public static String encodeUrlSafe(CharSequence source, Charset charset) {
-    return encodeUrlSafe(source.toString().getBytes(charset));
+    return Base64Encoder.encodeUrlSafe(source.toString().getBytes(charset));
   }
 
   /**
@@ -112,7 +113,8 @@ public class Base64Encoder {
    * @return 被加密后的字符串
    */
   public static String encode(byte[] source) {
-    return StringHelper.toString(encode(source, false), DEFAULT_CHARSET);
+    return StringHelper.toString(
+        Base64Encoder.encode(source, false), Base64Encoder.DEFAULT_CHARSET);
   }
 
   /**
@@ -123,7 +125,8 @@ public class Base64Encoder {
    * @since 3.0.6
    */
   public static String encodeUrlSafe(byte[] source) {
-    return StringHelper.toString(encodeUrlSafe(source, false), DEFAULT_CHARSET);
+    return StringHelper.toString(
+        Base64Encoder.encodeUrlSafe(source, false), Base64Encoder.DEFAULT_CHARSET);
   }
 
   /**
@@ -150,7 +153,8 @@ public class Base64Encoder {
     int destlen = cnt + (isMultiLine ? (cnt - 1) / 76 << 1 : 0);
     byte[] dest = new byte[destlen];
 
-    byte[] encodeTable = isUrlSafe ? URL_SAFE_ENCODE_TABLE : STANDARD_ENCODE_TABLE;
+    byte[] encodeTable =
+        isUrlSafe ? Base64Encoder.URL_SAFE_ENCODE_TABLE : Base64Encoder.STANDARD_ENCODE_TABLE;
 
     for (int s = 0, d = 0, cc = 0; s < evenlen; ) {
       int i = (arr[s++] & 0xff) << 16 | (arr[s++] & 0xff) << 8 | (arr[s++] & 0xff);
